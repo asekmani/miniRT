@@ -13,6 +13,9 @@
 NAME= miniRT
 
 SRCS=	M_src/miniRT.c \
+		M_src/utils.c \
+		M_src/init.c \
+		M_src/exit.c \
 
 INC_DIR= includes/
 
@@ -31,13 +34,13 @@ $(NAME): $(OBJ)
 AR= ar rcs
 
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -MMD -MP -I/usr/include -Iminilibx-linux/ -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux/ -c $< -o $@
 
 clean:
 	${RM} ${OBJ}
 
 fclean: clean
-	${RM} ${NAME} *.d
+	${RM} ${NAME}
 
 re: fclean all
 

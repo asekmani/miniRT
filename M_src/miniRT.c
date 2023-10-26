@@ -12,10 +12,42 @@
 
 #include "../includes/miniRT.h"
 
-int main(int arc, char **arv)
+int	check_and_open_file(int arc, char **arv)
 {
+	int	i;
+	int	fd;
+
+	fd = 0;
+	if (arc != 2)
+		return (1);
+	if (!arv[1])
+		return (1);
+	i = ft_strlen(arv[1]);
+	if (i < 4)
+		return (1);
+	if (arv[1][i - 1] == 't' || arv[1][i - 2] == 'r' || arv[1][i - 3] == '.')
+	{
+		fd = open(arv[1], O_RDONLY);
+		if (fd < 0)
+			return (1);
+		close(fd);
+	}
+	else
+		return (1);
+	return (0);
+}
+
+int	main(int arc, char **arv)
+{
+    //int     fd;
+    t_minirt    rt;
+
     (void)arc;
     (void)arv;
-    printf("hello\n");
-    return(0);
+    // if(check_and_open_file(arc, arv) != 0)
+    //     error_msg("wrong args : you need to enter filename.rt");
+    // fd = open(arv[1], O_RDONLY);
+    init_minirt(&rt);
+    render_rt(&rt);
+    return (0);
 }
