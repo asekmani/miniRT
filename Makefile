@@ -16,6 +16,7 @@ SRCS=	M_src/miniRT.c \
 		M_src/utils.c \
 		M_src/init.c \
 		M_src/exit.c \
+		M_src/Memory_allocator.c \
 
 INC_DIR= includes/
 

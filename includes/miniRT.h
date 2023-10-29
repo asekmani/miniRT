@@ -33,6 +33,12 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
+typedef struct alloc
+{
+	void				*adr;
+	struct alloc		*next;
+}				t_alloc;
+
 typedef struct s_img
 {
     void	*img;
@@ -55,24 +61,47 @@ typedef struct s_vec
 	double	z;
 }				t_vec;
 
+typedef struct s_scene
+{
+	t_obj	*objs;
+	t_vec	color;
+	t_cam	camera;
+	t_lum	*light;
+	t_amb	ambiant;
+}				t_scene;
+
 typedef struct s_minirt
 {
 	t_vars	vars;
 	t_img	img;
 	t_vec	vec;
+	t_scene	scene;
+
 }				t_minirt;
 
-/*UTILS*/
-size_t	ft_strlen(const char *s);
-void	error_msg(char *str);
+/*Global*/
+t_alloc		*g_memory;
 
-/*INIT*/
-void	init_minirt(t_minirt	*rt);
-void	render_rt(t_minirt *rt);
+/*Utils*/
+size_t		ft_strlen(const char *s);
+void		error_msg(char *str);
 
-/*EXIT*/
-void	clean_exit(int exit_code, t_minirt *rt);
-int		exit_key(int keycode, t_minirt *rt);
-int		end_minirt(t_minirt *mlx);
+/*Init*/
+void		init_minirt(t_minirt	*rt);
+void		render_rt(t_minirt *rt);
+
+/*Exit*/
+void		clean_exit(int exit_code, t_minirt *rt);
+int			exit_key(int keycode, t_minirt *rt);
+int			end_minirt(t_minirt *mlx);
+
+/*Memory_allocator*/
+t_alloc		*new_node(void *adr);
+t_alloc		**add_adr(t_alloc **g_memory, void *adr);
+void		*memory_adr(t_alloc **g_memory, size_t size);
+void		free_memory(t_alloc **g_memory, t_alloc *node);
+
+/*Init_struct*/
+
 
 #endif

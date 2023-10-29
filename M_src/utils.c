@@ -25,5 +25,6 @@ size_t	ft_strlen(const char *s)
 void	error_msg(char *str)
 {
 	printf("Error : %s\n", str);
+	free_memory(&g_memory, g_memory);
 	exit(1);
 }
