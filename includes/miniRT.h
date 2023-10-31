@@ -61,13 +61,40 @@ typedef struct s_vec
 	double	z;
 }				t_vec;
 
+typedef struct s_lum
+{
+	double			ratio;
+	t_vec			src;
+	t_vec			color;
+	struct s_lum	*next;
+}				t_lum;
+
+typedef struct s_obj
+{
+	int				type;
+	// t_vec			cen;
+	// t_vec			dir;
+	// t_vec			p;
+	// t_vec			col;
+	// t_vec			norm;
+	struct s_obj	*next;
+}				t_obj;
+
+typedef struct s_amb
+{
+	int		counter;
+	double	ratio;
+	t_vec	color;
+}				t_amb;
+
 typedef struct s_scene
 {
 	t_obj	*objs;
 	t_vec	color;
-	t_cam	camera;
 	t_lum	*light;
-	t_amb	ambiant;
+	t_amb	ambient;
+	// t_cam	camera;
+
 }				t_scene;
 
 typedef struct s_minirt
@@ -75,7 +102,7 @@ typedef struct s_minirt
 	t_vars	vars;
 	t_img	img;
 	t_vec	vec;
-	t_scene	scene;
+	t_scene	*scene;
 
 }				t_minirt;
 
@@ -84,14 +111,14 @@ t_alloc		*g_memory;
 
 /*Utils*/
 size_t		ft_strlen(const char *s);
-void		error_msg(char *str);
+double		ft_atod(const char *str);
 
-/*Init*/
-void		init_minirt(t_minirt	*rt);
+/*Render*/
 void		render_rt(t_minirt *rt);
 
 /*Exit*/
 void		clean_exit(int exit_code, t_minirt *rt);
+void		error_msg(char *str);
 int			exit_key(int keycode, t_minirt *rt);
 int			end_minirt(t_minirt *mlx);
 
@@ -102,6 +129,10 @@ void		*memory_adr(t_alloc **g_memory, size_t size);
 void		free_memory(t_alloc **g_memory, t_alloc *node);
 
 /*Init_struct*/
+void		init_minirt(t_minirt	*rt);
+t_scene		*init_scence(void);
+
+/*Parsing*/
 
 
 #endif

@@ -41,3 +41,10 @@ int	exit_key(int keycode, t_minirt *rt)
 		end_minirt(rt);
 	return (0);
 }
+
+void	error_msg(char *str)
+{
+	printf("Error : %s\n", str);
+	free_memory(&g_memory, g_memory);
+	exit(1);
+}

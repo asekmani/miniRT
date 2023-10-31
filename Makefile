@@ -14,9 +14,10 @@ NAME= miniRT
 
 SRCS=	M_src/miniRT.c \
 		M_src/utils.c \
-		M_src/init.c \
+		M_src/render.c \
 		M_src/exit.c \
 		M_src/Memory_allocator.c \
+		M_src/init_struct.c \
 
 INC_DIR= includes/
 

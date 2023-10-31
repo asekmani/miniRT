@@ -12,7 +12,7 @@
 
 #include "../includes/miniRT.h"
 
-int	check_and_open_file(int arc, char **arv)
+static int	check_and_open_file(int arc, char **arv)
 {
 	int	i;
 	int	fd;
@@ -39,14 +39,15 @@ int	check_and_open_file(int arc, char **arv)
 
 int	main(int arc, char **arv)
 {
-    //int     fd;
+    int     fd;
     t_minirt    rt;
 
-    (void)arc;
-    (void)arv;
-    // if(check_and_open_file(arc, arv) != 0)
-    //     error_msg("wrong args : you need to enter filename.rt");
-    // fd = open(arv[1], O_RDONLY);
+    if(check_and_open_file(arc, arv) != 0)
+        error_msg("Error : wrong args!");
+    fd = open(arv[1], O_RDONLY);
+	rt.scene = init_scence();
+	if(!rt.scene)
+		error_msg("Error: no scene!");
     init_minirt(&rt);
     render_rt(&rt);
     return (0);
