@@ -61,13 +61,20 @@ typedef struct s_vec
 	double	z;
 }				t_vec;
 
-typedef struct s_lum
+typedef struct s_col
 {
+	double	r;
+	double	g;
+	double	b;
+}				t_col;
+
+typedef struct s_light
+{
+	t_vec			coord;
 	double			ratio;
-	t_vec			src;
-	t_vec			color;
-	struct s_lum	*next;
-}				t_lum;
+	t_col			color;
+	struct s_light	*next;
+}				t_light;
 
 typedef struct s_obj
 {
@@ -75,7 +82,7 @@ typedef struct s_obj
 	// t_vec			cen;
 	// t_vec			dir;
 	// t_vec			p;
-	// t_vec			col;
+	// t_col			col;
 	// t_vec			norm;
 	struct s_obj	*next;
 }				t_obj;
@@ -84,16 +91,24 @@ typedef struct s_amb
 {
 	int		counter;
 	double	ratio;
-	t_vec	color;
+	t_col	color;
 }				t_amb;
+
+typedef struct t_cam
+{
+	int		counter;
+	t_vec	coord;
+	t_vec	orient;
+	double	FOV;
+}				t_cam;
 
 typedef struct s_scene
 {
 	t_obj	*objs;
-	t_vec	color;
-	t_lum	*light;
+	t_col	color;
 	t_amb	ambient;
-	// t_cam	camera;
+	t_cam	camera;
+	t_light	*light;
 
 }				t_scene;
 
@@ -112,6 +127,7 @@ t_alloc		*g_memory;
 /*Utils*/
 size_t		ft_strlen(const char *s);
 double		ft_atod(const char *str);
+void		free_split(char **s);
 
 /*Render*/
 void		render_rt(t_minirt *rt);
@@ -133,6 +149,11 @@ void		init_minirt(t_minirt	*rt);
 t_scene		*init_scence(void);
 
 /*Parsing*/
-
+t_col		color_parse(char *str);
+t_vec		vectors_parse(char *str);
+t_light		*init_light(t_minirt *rt);
+void		ambient_parse(t_minirt *rt, char **arv);
+void		camera_parse(t_minirt *rt, char **arv);
+void		light_parse(t_minirt *rt, char **arv);
 
 #endif
