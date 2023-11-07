@@ -36,9 +36,37 @@ t_scene	*init_scence(void)
 	scene = memory_adr(&g_memory, (sizeof(t_scene)));
 	if (!scene)
 		return (NULL);
-	scene->objs = NULL;
+	scene->obj = NULL;
 	scene->ambient.counter = 0;
-	// scene->cam.count = 0;
+	scene->camera.counter = 0;
 	scene->light = NULL;
 	return(scene);
+}
+
+t_light	*init_light(t_minirt *rt)
+{
+	t_light	*new;
+
+	new = malloc(sizeof(t_light));
+	if (!new)
+		error_msg("Error : light allocation!");
+	new->next = rt->scene->light;
+	rt->scene->light = new;
+	return (new);
+}
+
+t_obj	*init_obj(t_minirt *rt)
+{
+	t_obj	*new;
+
+	new = memory_adr(&g_memory, sizeof(t_obj));
+	if (!new)
+		return (NULL);
+	new->color.r = new->color.g = new->color.b = 0;
+    new->coord.x = new->coord.y = new->coord.z = 0;
+    new->orient.x = new->orient.y = new->orient.z = 0;
+    new->p.x = new->p.y = new->p.z = 0;
+	new->next = rt->scene->obj;
+	rt->scene->obj = new;
+	return (new);
 }

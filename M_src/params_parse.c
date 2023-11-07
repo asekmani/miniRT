@@ -45,15 +45,3 @@ t_vec	vectors_parse(char *str)
 	free_split(arg);
 	return (vectors);
 }
-
-t_light	*init_light(t_minirt *rt)
-{
-	t_light	*new;
-
-	new = malloc(sizeof(t_light));
-	if (!new)
-		error_msg("Error : light allocation!");
-	new->next = rt->scene->light;
-	rt->scene->light = new;
-	return (new);
-}

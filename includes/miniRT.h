@@ -19,10 +19,10 @@
 # define HEIGHT 1200
 
 # define EPS 0.000001
-# define CY 1
-# define PL 2
-# define SP 3
-# define CO 4 
+# define CY 2
+# define PL 4
+# define SP 6
+# define CO 8 
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -78,12 +78,12 @@ typedef struct s_light
 
 typedef struct s_obj
 {
-	int				type;
-	// t_vec			cen;
-	// t_vec			dir;
-	// t_vec			p;
-	// t_col			col;
-	// t_vec			norm;
+	int				id;
+	t_vec			coord;
+	t_vec			orient;
+	t_vec			p;
+	t_vec			cy_axe;
+	t_col			color;
 	struct s_obj	*next;
 }				t_obj;
 
@@ -104,7 +104,7 @@ typedef struct t_cam
 
 typedef struct s_scene
 {
-	t_obj	*objs;
+	t_obj	*obj;
 	t_col	color;
 	t_amb	ambient;
 	t_cam	camera;
@@ -147,13 +147,17 @@ void		free_memory(t_alloc **g_memory, t_alloc *node);
 /*Init_struct*/
 void		init_minirt(t_minirt	*rt);
 t_scene		*init_scence(void);
+t_light		*init_light(t_minirt *rt);
+t_obj		*init_obj(t_minirt *rt);
 
 /*Parsing*/
 t_col		color_parse(char *str);
 t_vec		vectors_parse(char *str);
-t_light		*init_light(t_minirt *rt);
 void		ambient_parse(t_minirt *rt, char **arv);
 void		camera_parse(t_minirt *rt, char **arv);
 void		light_parse(t_minirt *rt, char **arv);
+void		sphere_parse(t_minirt *rt, char **arv);
+void		plane_parse(t_minirt *rt, char **arv);
+void		cylinder_parse(t_minirt *rt, char **arv);
 
 #endif
