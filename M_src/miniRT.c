@@ -48,6 +48,7 @@ int	main(int arc, char **arv)
 	rt.scene = init_scence();
 	if(!rt.scene)
 		error_msg("Error: no scene!");
+	ft_parsing(&rt, fd);
     init_minirt(&rt);
     render_rt(&rt);
     return (0);

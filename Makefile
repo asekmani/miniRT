@@ -16,8 +16,14 @@ SRCS=	M_src/miniRT.c \
 		M_src/utils.c \
 		M_src/render.c \
 		M_src/exit.c \
+		M_src/ft_split.c \
+		M_src/get_next_line.c \
 		M_src/Memory_allocator.c \
 		M_src/init_struct.c \
+		M_src/parsing.c \
+		M_src/elements_parse.c \
+		M_src/shapes_parse.c \
+		M_src/params_parse.c \
 
 INC_DIR= includes/
 

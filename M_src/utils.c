@@ -22,6 +22,29 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*res;
+	char	*res_char;
+	size_t	total_size;
+	size_t i;
+
+	if (nmemb >= SIZE_MAX || size >= SIZE_MAX)
+		return (NULL);
+	res = malloc(nmemb * size);
+	if (!res)
+		return (NULL);
+	res_char = (char *)res;
+	total_size = nmemb * size;
+	i = 0;
+	while (++i < total_size)
+	{
+		res_char[i] = '\0';
+		i++;
+	}
+	return (res);
+}
+
 double	ft_atod(const char *str)
 {
 	double	nb;

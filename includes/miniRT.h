@@ -24,6 +24,8 @@
 # define SP 6
 # define CO 8 
 
+# include <stddef.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -126,7 +128,10 @@ t_alloc		*g_memory;
 
 /*Utils*/
 size_t		ft_strlen(const char *s);
+char		*get_next_line(int	fd);
+char		**ft_split(char const *str, char c);
 double		ft_atod(const char *str);
+void		*ft_calloc(size_t nmemb, size_t size);
 void		free_split(char **s);
 
 /*Render*/
@@ -159,5 +164,7 @@ void		light_parse(t_minirt *rt, char **arv);
 void		sphere_parse(t_minirt *rt, char **arv);
 void		plane_parse(t_minirt *rt, char **arv);
 void		cylinder_parse(t_minirt *rt, char **arv);
+void		check_id(t_minirt *rt, char **arv, char *id);
+void		ft_parsing(t_minirt *rt, int fd);
 
 #endif
