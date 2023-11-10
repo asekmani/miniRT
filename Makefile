@@ -3,54 +3,59 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asekmani <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/18 17:21:09 by asekmani          #+#    #+#              #
-#    Updated: 2022/12/01 12:18:11 by asekmani         ###   ########.fr        #
+#    Created: 2022/09/23 10:28:09 by aouhadou          #+#    #+#              #
+#    Updated: 2022/09/26 14:06:19 by aouhadou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME= miniRT
+HEADER = includes/minirt.h
 
-SRCS=	M_src/miniRT.c \
-		M_src/utils.c \
-		M_src/render.c \
-		M_src/exit.c \
-		M_src/ft_split.c \
-		M_src/get_next_line.c \
-		M_src/Memory_allocator.c \
-		M_src/init_struct.c \
-		M_src/parsing.c \
-		M_src/elements_parse.c \
-		M_src/shapes_parse.c \
-		M_src/params_parse.c \
+NAME=miniRT
+NAME_B=miniRT_bonus
 
-INC_DIR= includes/
+M_SRCS= M_src/miniRT.c \
+				M_src/utils.c \
+				M_src/render.c \
+				M_src/exit.c \
+				M_src/ft_split.c \
+				M_src/get_next_line.c \
+				M_src/Memory_allocator.c \
+				M_src/init_struct.c \
+				M_src/parsing.c \
+				M_src/elements_parse.c \
+				M_src/shapes_parse.c \
+				M_src/params_parse.c
+	
+B_SRCS= B_src/miniRT_bonusß.c \
+	
+CFLAGS= -g -Wall -Wextra -Werror
+CC= gcc
 
-OBJ= ${SRCS:.c=.o}
-
-CC= cc
-FLAGS= -Wall -Wextra -Werror -g3
-RM=rm -f
+OBJS_M=$(M_SRCS:.c=.o)
+OBJS_B=$(B_SRCS:.c=.o)
 
 all: $(NAME)
+bonus: $(NAME_B)
 
-$(NAME): $(OBJ)
-	cd minilibx-linux;make;cd ..
-	$(CC) $(FLAGS) $(OBJ) -Lminilibx-linux -L/usr/lib -Iminilibx-linux/ -o $(NAME) -lXext -lX11 -lm -lmlx_Linux
+$(NAME):$(OBJS_M) $(HEADER)
+	@$(CC)  libmlx.a -lmlx -framework OpenGL -framework AppKit $(CFLAGS) $(OBJS_M) -o $(NAME)
 
-AR= ar rcs
+$(NAME_B):$(OBJS_B) $(HEADER)
+	@$(CC) libmlx.a -lmlx -framework OpenGL -framework AppKit $(CFLAGS) $(OBJS_B) -o $(NAME_B)
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux/ -c $< -o $@
+%.o:%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-clean:
-	${RM} ${OBJ}
+clean :
+	@rm -rf $(OBJS_M) $(OBJS_B)
 
-fclean: clean
-	${RM} ${NAME}
-
-re: fclean all
+fclean : clean
+	@rm -rf $(NAME) $(NAME_B)
 
 
-.PHONY: all clean fclean re bonus
+re : fclean $(NAME) clean
+re_b : fclean $(NAME_B) clean
+
+.PHONY: all $(NAME) $(NAME_B) clean fclean re

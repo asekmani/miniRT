@@ -31,9 +31,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
-# include <X11/X.h>
-# include <X11/keysym.h>
+#include "mlx.h"
 
 typedef struct alloc
 {
@@ -133,6 +131,7 @@ char		**ft_split(char const *str, char c);
 double		ft_atod(const char *str);
 void		*ft_calloc(size_t nmemb, size_t size);
 void		free_split(char **s);
+int			ft_atoi(const char *str);
 
 /*Render*/
 void		render_rt(t_minirt *rt);

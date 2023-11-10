@@ -22,8 +22,8 @@ void	clean_exit(int exit_code, t_minirt *rt)
 		mlx_destroy_window(rt->vars.mlx, rt->vars.win);
 	if (rt->vars.mlx)
 	{
-		mlx_loop_end(rt->vars.mlx);
-		mlx_destroy_display(rt->vars.mlx);
+		//mlx_loop_end(rt->vars.mlx);
+		//mlx_destroy_display(rt->vars.mlx);
 		free(rt->vars.mlx);
 	}
 	exit(exit_code);
