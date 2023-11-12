@@ -12,20 +12,20 @@
 
 #include "../includes/miniRT.h"
 
-t_col	color_parse(char *str)
+t_vec	color_parse(char *str)
 {
-	t_col	color;
+	t_vec	color;
 	char	**rgb;
 
 	rgb = ft_split(str, ',');
 	if (!rgb || !rgb[1] || !rgb[2] || rgb[3])
 		error_msg("Error : invalid color!");
-	color.r = ft_atoi(rgb[0]);
-    color.g = ft_atoi(rgb[1]);
-    color.b = ft_atoi(rgb[2]);
-	if (color.r > 255 || color.g > 255 || color.b > 255)
+	color.x = ft_atoi(rgb[0]);
+    color.y = ft_atoi(rgb[1]);
+    color.z = ft_atoi(rgb[2]);
+	if (color.x > 255 || color.y > 255 || color.z > 255)
 		error_msg("Error : invalid color!");
-	if (color.r < 0 || color.g < 0 || color.b < 0)
+	if (color.x < 0 || color.y < 0 || color.z < 0)
 		error_msg("Error : invalid color!");
 	free_split(rgb);
 	return (color);

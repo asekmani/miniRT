@@ -79,6 +79,14 @@ t_vec normalize(t_vec v)
     return result;
 }
 
+t_vec normalize_color(t_vec v){
+    t_vec result;
+    result.x = v.x / 255;
+    result.y = v.y / 255;
+    result.z = v.z / 255;
+    return result;
+
+}
 
 // calcul norm
 double norm(t_vec v)

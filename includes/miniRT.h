@@ -62,18 +62,12 @@ typedef struct s_vec
 	double	z;
 }				t_vec;
 
-typedef struct s_col
-{
-	double	r;
-	double	g;
-	double	b;
-}				t_col;
 
 typedef struct s_light
 {
 	t_vec			coord;
 	double			ratio;
-	t_col			color;
+	t_vec			color;
 	struct s_light	*next;
 }				t_light;
 
@@ -84,7 +78,7 @@ typedef struct s_obj
 	t_vec			orient;
 	t_vec			p;
 	t_vec			cy_axe;
-	t_col			color;
+	t_vec			color;
 	struct s_obj	*next;
 }				t_obj;
 
@@ -92,7 +86,7 @@ typedef struct s_amb
 {
 	int		counter;
 	double	ratio;
-	t_col	color;
+	t_vec	color;
 }				t_amb;
 
 typedef struct t_cam
@@ -106,7 +100,7 @@ typedef struct t_cam
 typedef struct s_scene
 {
 	t_obj	*obj;
-	t_col	color;
+	t_vec	color;
 	t_amb	ambient;
 	t_cam	camera;
 	t_light	*light;
@@ -163,7 +157,7 @@ t_light		*init_light(t_minirt *rt);
 t_obj		*init_obj(t_minirt *rt);
 
 /*Parsing*/
-t_col		color_parse(char *str);
+t_vec		color_parse(char *str);
 t_vec		vectors_parse(char *str);
 t_vec 		vec_subtract(t_vec v1, t_vec v2);
 bool 		intersection_sphere(t_ray ray, t_obj sp,t_vec *p,t_vec *n);
@@ -180,6 +174,7 @@ double 		dot_product(t_vec v1, t_vec v2);
 t_vec 		vec_add(t_vec v1, t_vec v2);
 t_vec 		vec_multiply(t_vec v, double scalar);
 t_vec 		vec_subtract(t_vec v1, t_vec v2);
+t_vec 		normalize_color(t_vec v);
 double 		norm(t_vec v);
 
 
