@@ -162,6 +162,7 @@ t_vec		vectors_parse(char *str);
 t_vec 		vec_subtract(t_vec v1, t_vec v2);
 bool 		intersection_sphere(t_ray ray, t_obj sp,t_vec *p,t_vec *n, double *t);
 bool		intersection_scene(t_scene scene, t_ray ray,t_vec *p,t_vec *n,t_obj *s);
+bool 		intersection_scene_ray(t_scene scene, t_ray ray, double *t);
 void		ambient_parse(t_minirt *rt, char **arv);
 void		camera_parse(t_minirt *rt, char **arv);
 void		light_parse(t_minirt *rt, char **arv);

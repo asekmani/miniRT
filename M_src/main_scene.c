@@ -27,7 +27,7 @@ t_obj create_tobj_sphre(double x, double y, double z, double cx, double cy, doub
 t_scene create_scene()
 {
     t_scene scene;
-    scene.obj = NULL; 
+    scene.obj = NULL;
 
     // create sol
     t_obj *new_obj = malloc(sizeof(t_obj));
@@ -47,7 +47,7 @@ t_scene create_scene()
     *new_obj = create_tobj_sphre(-2050, 0, 0, 0, 255, 0, 2000);
     new_obj->next = NULL;
 
-     // create mur_droit
+    // create mur_droit
     new_obj->next = malloc(sizeof(t_obj));
     new_obj = new_obj->next;
     *new_obj = create_tobj_sphre(2050, 0, 0, 0, 0, 255, 2000);
@@ -58,13 +58,11 @@ t_scene create_scene()
     new_obj = new_obj->next;
     *new_obj = create_tobj_sphre(0, 0, -2100, 0, 255, 255, 2000);
     new_obj->next = NULL;
-    
+
     new_obj->next = malloc(sizeof(t_obj));
     new_obj = new_obj->next;
     *new_obj = create_tobj_sphre(0, 0, -55, 255, 0, 0, 20);
     new_obj->next = NULL;
-
-    
 
     return scene;
 }
@@ -113,7 +111,7 @@ int main(void)
 
             t_vec p, n;
             t_obj intersect_obj;
-            bool intersect = intersection_scene(scene ,ray, &p, &n, &intersect_obj);
+            bool intersect = intersection_scene(scene, ray, &p, &n, &intersect_obj);
 
             t_vec intensite_pixel_color;
             intensite_pixel_color.x = 0;
@@ -123,18 +121,35 @@ int main(void)
             {
                 t_vec pos_light_p = vec_subtract(light.coord, p);
                 t_vec n_pos_light_p = normalize(pos_light_p);
-                double ps_n_pos_light_p_n = dot_product(n_pos_light_p, n);
-                if (ps_n_pos_light_p_n < 0)
+                // créer un rayon d'origin position p qui est la plus proche intersection et de direction vers la lumiere
+                t_ray r_p_to_position_light;
+                // video 2 10m:20
+                r_p_to_position_light.coord =vec_add(p, vec_multiply(n, 0.01));
+                r_p_to_position_light.direction = n_pos_light_p;
+                bool has_intersect_light;
+                double distance_vers_intersection;
+                has_intersect_light = intersection_scene_ray(scene, r_p_to_position_light, &distance_vers_intersection);
+                if (has_intersect_light && distance_vers_intersection * distance_vers_intersection < norm(pos_light_p))
                 {
-                    ps_n_pos_light_p_n = 0;
+                    intensite_pixel_color.x = 0;
+                    intensite_pixel_color.y = 0;
+                    intensite_pixel_color.z = 0;
                 }
-                double intensite_pixel;
-                intensite_pixel = light.ratio * ps_n_pos_light_p_n / norm(pos_light_p);
+                else
+                {
+                    double ps_n_pos_light_p_n = dot_product(n_pos_light_p, n);
+                    if (ps_n_pos_light_p_n < 0)
+                    {
+                        ps_n_pos_light_p_n = 0;
+                    }
+                    double intensite_pixel;
+                    intensite_pixel = light.ratio * ps_n_pos_light_p_n / norm(pos_light_p);
 
-                intensite_pixel_color = vec_multiply(normalize_color(intersect_obj.color), intensite_pixel);
-                intensite_pixel_color.x = (intensite_pixel_color.x > 255) ? 255 : ((intensite_pixel_color.x < 0) ? 0 : intensite_pixel_color.x);
-                intensite_pixel_color.y = (intensite_pixel_color.y > 255) ? 255 : ((intensite_pixel_color.y < 0) ? 0 : intensite_pixel_color.y);
-                intensite_pixel_color.z = (intensite_pixel_color.z > 255) ? 255 : ((intensite_pixel_color.z < 0) ? 0 : intensite_pixel_color.z);
+                    intensite_pixel_color = vec_multiply(normalize_color(intersect_obj.color), intensite_pixel);
+                    intensite_pixel_color.x = (intensite_pixel_color.x > 255) ? 255 : ((intensite_pixel_color.x < 0) ? 0 : intensite_pixel_color.x);
+                    intensite_pixel_color.y = (intensite_pixel_color.y > 255) ? 255 : ((intensite_pixel_color.y < 0) ? 0 : intensite_pixel_color.y);
+                    intensite_pixel_color.z = (intensite_pixel_color.z > 255) ? 255 : ((intensite_pixel_color.z < 0) ? 0 : intensite_pixel_color.z);
+                }
             }
 
             image[((H - i - 1) * W + j) * 3 + 0] = (unsigned char)intensite_pixel_color.x;

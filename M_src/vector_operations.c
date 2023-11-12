@@ -17,6 +17,7 @@ t_vec vec_add(t_vec v1, t_vec v2)
     return result;
 }
 
+
 // Soustraction de deux vecteurs
 t_vec vec_subtract(t_vec v1, t_vec v2)
 {

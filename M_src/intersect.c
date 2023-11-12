@@ -58,3 +58,31 @@ bool intersection_scene(t_scene scene, t_ray ray, t_vec *p, t_vec *n, t_obj *s)
     }
     return has_intersect;
 }
+
+bool intersection_scene_ray(t_scene scene, t_ray ray, double *t)
+{
+    t_obj *sphere;
+    sphere = scene.obj;
+    bool has_intersect;
+    has_intersect = false;
+    double min_t = DBL_MAX;
+    while (sphere != NULL)
+    {
+        t_vec local_p;
+        t_vec local_n;
+        bool local_has_intersect;
+        double local_t;
+        local_has_intersect = intersection_sphere(ray, *sphere, &local_p, &local_n, &local_t);
+        if (local_has_intersect)
+        {
+            has_intersect = true;
+            if (local_t < min_t)
+            {
+                min_t = local_t;
+            }
+        }
+        sphere = sphere->next;
+    }
+    *t = min_t;
+    return has_intersect;
+}
