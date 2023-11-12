@@ -84,7 +84,8 @@ int main(void) {
             ray.direction = normalize(ray.direction);
 
             t_vec p, n;
-            bool intersect = intersection_sphere(ray, sphere, &p, &n);
+            double t;
+            bool intersect = intersection_sphere(ray, sphere, &p, &n, &t);
 
             t_vec intensite_pixel_color;
             intensite_pixel_color.x = 0;

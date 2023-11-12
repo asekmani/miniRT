@@ -5,7 +5,7 @@ NAME_B=miniRT_bonus
 
 OBJ_DIR = obj
 
-M_SRCS = M_src/main.c \
+M_SRCS = M_src/main_scene.c \
 		 M_src/utils.c \
          M_src/render.c \
          M_src/exit.c \
