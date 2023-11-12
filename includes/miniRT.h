@@ -31,6 +31,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
+#include <stdbool.h>
 #include "mlx.h"
 
 typedef struct alloc
@@ -121,6 +122,13 @@ typedef struct s_minirt
 
 }				t_minirt;
 
+
+typedef struct s_ray
+{
+	t_vec	coord;
+	t_vec	direction;
+}				t_ray;
+
 /*Global*/
 t_alloc		*g_memory;
 
@@ -157,6 +165,8 @@ t_obj		*init_obj(t_minirt *rt);
 /*Parsing*/
 t_col		color_parse(char *str);
 t_vec		vectors_parse(char *str);
+t_vec 		vec_subtract(t_vec v1, t_vec v2);
+bool 		intersection_sphere(t_ray ray, t_obj sp,t_vec *p,t_vec *n);
 void		ambient_parse(t_minirt *rt, char **arv);
 void		camera_parse(t_minirt *rt, char **arv);
 void		light_parse(t_minirt *rt, char **arv);
@@ -165,5 +175,15 @@ void		plane_parse(t_minirt *rt, char **arv);
 void		cylinder_parse(t_minirt *rt, char **arv);
 void		check_id(t_minirt *rt, char **arv, char *id);
 void		ft_parsing(t_minirt *rt, int fd);
+t_vec 		normalize(t_vec v);
+double 		dot_product(t_vec v1, t_vec v2);
+t_vec 		vec_add(t_vec v1, t_vec v2);
+t_vec 		vec_multiply(t_vec v, double scalar);
+t_vec 		vec_subtract(t_vec v1, t_vec v2);
+double 		norm(t_vec v);
+
+
+
+void save_img(const char* filename, const unsigned char* pixels, int W, int H);
 
 #endif
