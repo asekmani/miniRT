@@ -17,13 +17,13 @@ void	init_minirt(t_minirt	*rt)
 	rt->vars.mlx = mlx_init();
     if (rt->vars.mlx == NULL)
         exit(1);
-    rt->vars.win = mlx_new_window(rt->vars.mlx, WIDTH, HEIGHT, "My cute MiniRT!!");
+    rt->vars.win = mlx_new_window(rt->vars.mlx, W, H, "My cute MiniRT!!");
     if (rt->vars.win == NULL)
 	{
 		free(rt->vars.win);
 		exit(1);
 	}
-	rt->img.img = mlx_new_image(rt->vars.mlx, WIDTH, HEIGHT);
+	rt->img.img = mlx_new_image(rt->vars.mlx, W, H);
 	rt->img.addr = mlx_get_data_addr(rt->img.img, &rt->img.bits_per_pixel,
 			&rt->img.line_length, &rt->img.endian);
 }
@@ -62,7 +62,7 @@ t_obj	*init_obj(t_minirt *rt)
 	new = memory_adr(&g_memory, sizeof(t_obj));
 	if (!new)
 		return (NULL);
-	new->color.r = new->color.g = new->color.b = 0;
+	new->color.x = new->color.y = new->color.z = 0;
     new->coord.x = new->coord.y = new->coord.z = 0;
     new->orient.x = new->orient.y = new->orient.z = 0;
     new->p.x = new->p.y = new->p.z = 0;

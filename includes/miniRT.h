@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define WIDTH 1200
-# define HEIGHT 1200
+# define W 1200
+# define H 1200
 
 # define EPS 0.000001
 # define CY 2
@@ -28,7 +28,9 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include <stdio.h>
+# include <float.h>
 # include <fcntl.h>
 # include <math.h>
 # include <mlx.h>
@@ -63,18 +65,24 @@ typedef struct s_vec
 	double	z;
 }				t_vec;
 
-typedef struct s_col
+typedef struct s_ray
 {
-	double	r;
-	double	g;
-	double	b;
-}				t_col;
+	t_vec			coord;
+	t_vec			direc;
+}				t_ray;
+
+// typedef struct s_col
+// {
+// 	double	r;
+// 	double	g;
+// 	double	b;
+// }				t_col;
 
 typedef struct s_light
 {
 	t_vec			coord;
 	double			ratio;
-	t_col			color;
+	t_vec			color;
 	struct s_light	*next;
 }				t_light;
 
@@ -85,7 +93,7 @@ typedef struct s_obj
 	t_vec			orient;
 	t_vec			p;
 	t_vec			cy_axe;
-	t_col			color;
+	t_vec			color;
 	struct s_obj	*next;
 }				t_obj;
 
@@ -93,7 +101,7 @@ typedef struct s_amb
 {
 	int		counter;
 	double	ratio;
-	t_col	color;
+	t_vec	color;
 }				t_amb;
 
 typedef struct t_cam
@@ -107,7 +115,7 @@ typedef struct t_cam
 typedef struct s_scene
 {
 	t_obj	*obj;
-	t_col	color;
+	t_vec	color;
 	t_amb	ambient;
 	t_cam	camera;
 	t_light	*light;
@@ -119,15 +127,17 @@ typedef struct s_minirt
 	t_vars	vars;
 	t_img	img;
 	t_vec	vec;
+	t_ray	ray;
 	t_scene	*scene;
 
 }				t_minirt;
 
 /*Global*/
-t_alloc		*g_memory;
+extern t_alloc		*g_memory;
 
 /*Utils*/
 size_t		ft_strlen(const char *s);
+int			ft_atoi(const char *str);
 char		*get_next_line(int	fd);
 char		**ft_split(char const *str, char c);
 double		ft_atod(const char *str);
@@ -136,6 +146,7 @@ void		free_split(char **s);
 
 /*Render*/
 void		render_rt(t_minirt *rt);
+void		img_pixel_put(t_img *img, int x, int y, int color);
 
 /*Exit*/
 void		clean_exit(int exit_code, t_minirt *rt);
@@ -156,7 +167,7 @@ t_light		*init_light(t_minirt *rt);
 t_obj		*init_obj(t_minirt *rt);
 
 /*Parsing*/
-t_col		color_parse(char *str);
+t_vec		color_parse(char *str);
 t_vec		vectors_parse(char *str);
 void		ambient_parse(t_minirt *rt, char **arv);
 void		camera_parse(t_minirt *rt, char **arv);
@@ -166,5 +177,21 @@ void		plane_parse(t_minirt *rt, char **arv);
 void		cylinder_parse(t_minirt *rt, char **arv);
 void		check_id(t_minirt *rt, char **arv, char *id);
 void		ft_parsing(t_minirt *rt, int fd);
+
+/*Vectors*/
+t_vec 		vec_add(t_vec v1, t_vec v2);
+t_vec 		vec_subtract(t_vec v1, t_vec v2);
+t_vec 		vec_multiply(t_vec v, double scalar);
+t_vec 		vec_divide(t_vec v, double scalar);
+t_vec 		normalize(t_vec v);
+t_vec 		normalize_color(t_vec v);
+double 		dot_product(t_vec v1, t_vec v2);
+double 		vec_length(t_vec v);
+double 		norm(t_vec v);
+
+/*Intersection*/
+bool inter_sphere(t_ray ray, t_obj sp, t_vec *p, t_vec *n, double *t);
+bool inter_scene(t_scene scene, t_ray ray, t_vec *p, t_vec *n, t_obj *s);
+bool inter_scene_ray(t_scene scene, t_ray ray, double *t);
 
 #endif
