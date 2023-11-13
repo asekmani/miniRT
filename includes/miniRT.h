@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define W 1200
-# define H 1200
+# define W 800
+# define H 800
 
 # define EPS 0.000001
 # define CY 2
@@ -33,9 +33,7 @@
 # include <float.h>
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
-# include <X11/X.h>
-# include <X11/keysym.h>
+#include "mlx.h"
 
 typedef struct alloc
 {
@@ -194,4 +192,6 @@ bool inter_sphere(t_ray ray, t_obj sp, t_vec *p, t_vec *n, double *t);
 bool inter_scene(t_scene scene, t_ray ray, t_vec *p, t_vec *n, t_obj *s);
 bool inter_scene_ray(t_scene scene, t_ray ray, double *t);
 
+
+t_scene create_scene();
 #endif

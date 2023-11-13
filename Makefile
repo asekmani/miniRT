@@ -10,49 +10,58 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME= miniRT
+HEADER = includes/minirt.h
 
-SRCS=	M_src/miniRT.c \
-		M_src/utils.c \
-		M_src/render.c \
-		M_src/exit.c \
-		M_src/intersection.c \
-		M_src/ft_split.c \
-		M_src/get_next_line.c \
-		M_src/Memory_allocator.c \
-		M_src/vector_operations.c \
-		M_src/init_struct.c \
-		M_src/parsing.c \
-		M_src/elements_parse.c \
-		M_src/shapes_parse.c \
-		M_src/params_parse.c \
+NAME=miniRT
+NAME_B=miniRT_bonus
 
-INC_DIR= includes/
+OBJ_DIR = obj
 
-OBJ= ${SRCS:.c=.o}
+M_SRCS = M_src/miniRT.c \
+		 M_src/utils.c \
+         M_src/render.c \
+         M_src/exit.c \
+         M_src/ft_split.c \
+         M_src/get_next_line.c \
+         M_src/Memory_allocator.c \
+         M_src/init_struct.c \
+         M_src/parsing.c \
+         M_src/elements_parse.c \
+         M_src/shapes_parse.c \
+         M_src/params_parse.c \
+		 M_src/vector_operations.c \
+         M_src/intersection.c \
+		 M_src/test.c
 
-CC= cc
-FLAGS= -Wall -Wextra -Werror -g3
-RM=rm -f
+B_SRCS = B_src/miniRT_bonus.c
+
+CFLAGS = -g -Wall -Wextra -Werror
+MFLAGS = libmlx.a -lmlx -framework OpenGL -framework AppKit
+CC = gcc
+
+OBJS_M = $(addprefix $(OBJ_DIR)/, $(M_SRCS:.c=.o))
+OBJS_B = $(addprefix $(OBJ_DIR)/, $(B_SRCS:.c=.o))
 
 all: $(NAME)
+bonus: $(NAME_B)
 
-$(NAME): $(OBJ)
-	cd minilibx-linux;make;cd ..
-	$(CC) $(FLAGS) $(OBJ) -Lminilibx-linux -L/usr/lib -Iminilibx-linux/ -o $(NAME) -lXext -lX11 -lm -lmlx_Linux
+$(NAME): $(OBJS_M) $(HEADER)
+	@$(CC)  $(MFLAGS) $(CFLAGS) $(OBJS_M) -o $(NAME)
 
-AR= ar rcs
+$(NAME_B): $(OBJS_B) $(HEADER)
+	@$(CC) $(MFLAGS) $(CFLAGS) $(OBJS_B) -o $(NAME_B)
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux/ -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	${RM} ${OBJ}
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	${RM} ${NAME}
+	@rm -rf $(NAME) $(NAME_B)
 
-re: fclean all
+re: fclean $(NAME) clean
+re_b: fclean $(NAME_B) clean
 
-
-.PHONY: all clean fclean re bonus
+.PHONY: all $(NAME) $(NAME_B) clean fclean re
