@@ -96,7 +96,7 @@ int main(void)
     light.coord.x = 15;
     light.coord.y = 70;
     light.coord.z = -30;
-    light.ratio = 1000000;
+    light.ratio = 100000000;
 
     for (int i = 0; i < H; i++)
     {
@@ -146,6 +146,9 @@ int main(void)
                     intensite_pixel = light.ratio * ps_n_pos_light_p_n / norm(pos_light_p);
 
                     intensite_pixel_color = vec_multiply(normalize_color(intersect_obj.color), intensite_pixel);
+                    intensite_pixel_color.x = pow(intensite_pixel_color.x, 1/2.2);
+                    intensite_pixel_color.y = pow(intensite_pixel_color.y, 1/2.2);
+                    intensite_pixel_color.z = pow(intensite_pixel_color.z, 1/2.2);
                     intensite_pixel_color.x = (intensite_pixel_color.x > 255) ? 255 : ((intensite_pixel_color.x < 0) ? 0 : intensite_pixel_color.x);
                     intensite_pixel_color.y = (intensite_pixel_color.y > 255) ? 255 : ((intensite_pixel_color.y < 0) ? 0 : intensite_pixel_color.y);
                     intensite_pixel_color.z = (intensite_pixel_color.z > 255) ? 255 : ((intensite_pixel_color.z < 0) ? 0 : intensite_pixel_color.z);
