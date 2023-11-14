@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-HEADER = includes/minirt.h
+# HEADER = includes/minirt.h
 
 NAME=miniRT
 NAME_B=miniRT_bonus
@@ -35,9 +35,9 @@ M_SRCS = M_src/miniRT.c \
 
 B_SRCS = B_src/miniRT_bonus.c
 
-CFLAGS = -g -Wall -Wextra -Werror
-MFLAGS = libmlx.a -lmlx -framework OpenGL -framework AppKit
-CC = gcc
+CFLAGS = -g3 -Wall -Wextra -Werror
+# MFLAGS = libmlx.a -lmlx -framework OpenGL -framework AppKit
+CC = cc
 
 OBJS_M = $(addprefix $(OBJ_DIR)/, $(M_SRCS:.c=.o))
 OBJS_B = $(addprefix $(OBJ_DIR)/, $(B_SRCS:.c=.o))
@@ -46,14 +46,14 @@ all: $(NAME)
 bonus: $(NAME_B)
 
 $(NAME): $(OBJS_M) $(HEADER)
-	@$(CC)  $(MFLAGS) $(CFLAGS) $(OBJS_M) -o $(NAME)
+	@$(CC)  $(CFLAGS) $(OBJS_M) -Lminilibx-linux -L/usr/lib -Iminilibx-linux/ -o $(NAME) -lXext -lX11 -lm -lmlx_Linux
 
 $(NAME_B): $(OBJS_B) $(HEADER)
-	@$(CC) $(MFLAGS) $(CFLAGS) $(OBJS_B) -o $(NAME_B)
+	@$(CC) $(CFLAGS) $(OBJS_B) -Lminilibx-linux -L/usr/lib -Iminilibx-linux/ -o $(NAME_B) -lXext -lX11 -lm -lmlx_Linux
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I/usr/include -Iminilibx-linux/ -c $< -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR)

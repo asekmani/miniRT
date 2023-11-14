@@ -37,9 +37,9 @@ t_scene create_scene()
     // create light
     t_light *light;
     light = malloc(sizeof(t_light));
-    light->coord.x = 15;
-    light->coord.y = 70;
-    light->coord.z = -30;
+    light->coord.x = 30;
+    light->coord.y = 50;
+    light->coord.z = -20;
     light->ratio = 100000000;
     scene.light = light;
 
@@ -47,37 +47,37 @@ t_scene create_scene()
 
     // create sol
     t_obj *new_obj = malloc(sizeof(t_obj));
-    *new_obj = create_tobj_sphre(0, -2050, 0, 255, 255, 255, 2000);
+    *new_obj = create_tobj_sphre(0, -2050, 0, 195, 153, 237, 2000);
     new_obj->next = NULL;
     scene.obj = new_obj;
 
     // create plafond
     new_obj->next = malloc(sizeof(t_obj));
     new_obj = new_obj->next;
-    *new_obj = create_tobj_sphre(0, 2100, 0, 255, 255, 255, 2000);
+    *new_obj = create_tobj_sphre(0, 2100, 0, 192, 192, 192, 2000);
     new_obj->next = NULL;
 
     // create mur_gauche
     new_obj->next = malloc(sizeof(t_obj));
     new_obj = new_obj->next;
-    *new_obj = create_tobj_sphre(-2050, 0, 0, 0, 255, 0, 2000);
+    *new_obj = create_tobj_sphre(-2050, 0, 0, 0, 0, 128, 2000);
     new_obj->next = NULL;
 
     // create mur_droit
     new_obj->next = malloc(sizeof(t_obj));
     new_obj = new_obj->next;
-    *new_obj = create_tobj_sphre(2050, 0, 0, 0, 0, 255, 2000);
+    *new_obj = create_tobj_sphre(2050, 0, 0, 0, 128, 128, 2000);
     new_obj->next = NULL;
 
     // create mur_fond
     new_obj->next = malloc(sizeof(t_obj));
     new_obj = new_obj->next;
-    *new_obj = create_tobj_sphre(0, 0, -2100, 0, 255, 255, 2000);
+    *new_obj = create_tobj_sphre(0, 0, -2100, 128, 0, 128, 2000);
     new_obj->next = NULL;
 
     new_obj->next = malloc(sizeof(t_obj));
     new_obj = new_obj->next;
-    *new_obj = create_tobj_sphre(0, 0, -55, 255, 0, 0, 20);
+    *new_obj = create_tobj_sphre(0, 0, -55, 246, 145, 9, 20);
     new_obj->next = NULL;
 
     return scene;

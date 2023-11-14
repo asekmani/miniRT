@@ -49,10 +49,10 @@ void tracing(t_minirt *rt)
 
 			bool intersect = inter_scene(scene, ray, &p, &n, &intersect_obj);
 
-			t_vec intensite_pixel_color;
-			intensite_pixel_color.x = 0;
-			intensite_pixel_color.y = 0;
-			intensite_pixel_color.z = 0;
+			t_vec int_px_color;
+			int_px_color.x = 0;
+			int_px_color.y = 0;
+			int_px_color.z = 0;
 			if (intersect)
 			{
 				t_vec pos_light_p = vec_subtract(scene.light->coord, p);
@@ -67,9 +67,9 @@ void tracing(t_minirt *rt)
 				has_intersect_light = inter_scene_ray(scene, r_p_to_position_light, &distance_vers_intersection);
 				if (has_intersect_light && distance_vers_intersection * distance_vers_intersection < norm(pos_light_p))
 				{
-					intensite_pixel_color.x = 0;
-					intensite_pixel_color.y = 0;
-					intensite_pixel_color.z = 0;
+					int_px_color.x = 0;
+					int_px_color.y = 0;
+					int_px_color.z = 0;
 				}
 				else
 				{
@@ -81,16 +81,16 @@ void tracing(t_minirt *rt)
 					double intensite_pixel;
 					intensite_pixel = scene.light->ratio * ps_n_pos_light_p_n / norm(pos_light_p);
 
-					intensite_pixel_color = vec_multiply(normalize_color(intersect_obj.color), intensite_pixel);
-					intensite_pixel_color.x = pow(intensite_pixel_color.x, 1 / 2.2);
-					intensite_pixel_color.y = pow(intensite_pixel_color.y, 1 / 2.2);
-					intensite_pixel_color.z = pow(intensite_pixel_color.z, 1 / 2.2);
-					intensite_pixel_color.x = (intensite_pixel_color.x > 255) ? 255 : ((intensite_pixel_color.x < 0) ? 0 : intensite_pixel_color.x);
-					intensite_pixel_color.y = (intensite_pixel_color.y > 255) ? 255 : ((intensite_pixel_color.y < 0) ? 0 : intensite_pixel_color.y);
-					intensite_pixel_color.z = (intensite_pixel_color.z > 255) ? 255 : ((intensite_pixel_color.z < 0) ? 0 : intensite_pixel_color.z);
+					int_px_color = vec_multiply(normalize_color(intersect_obj.color), intensite_pixel);
+					int_px_color.x = pow(int_px_color.x, 1 / 2.2);
+					int_px_color.y = pow(int_px_color.y, 1 / 2.2);
+					int_px_color.z = pow(int_px_color.z, 1 / 2.2);
+					int_px_color.x = (int_px_color.x > 255) ? 255 : ((int_px_color.x < 0) ? 0 : int_px_color.x);
+					int_px_color.y = (int_px_color.y > 255) ? 255 : ((int_px_color.y < 0) ? 0 : int_px_color.y);
+					int_px_color.z = (int_px_color.z > 255) ? 255 : ((int_px_color.z < 0) ? 0 : int_px_color.z);
 				}
 			}
-			int color = create_rgb(intensite_pixel_color.x, intensite_pixel_color.y, intensite_pixel_color.z);
+			int color = create_rgb(int_px_color.x, int_px_color.y, int_px_color.z);
 			img_pixel_put(&rt->img, j, H - i - 1, color);
 			j++;
 		}

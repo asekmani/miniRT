@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define W 800
-# define H 800
+# define W 1000
+# define H 1000
 
 # define EPS 0.000001
 # define CY 2
@@ -33,7 +33,7 @@
 # include <float.h>
 # include <fcntl.h>
 # include <math.h>
-#include "mlx.h"
+# include "mlx.h"
 
 typedef struct alloc
 {
