@@ -43,6 +43,7 @@ bool check_shadow(t_scene scene, t_vec p, t_vec n, t_obj inter_obj, t_vec *px_co
     t_ray pos_light;
     double dis;
     (void)inter_obj;
+	
     pos_light.coord = vec_add(p, vec_multiply(n, 0.01));
     pos_light.direc = normalize(vec_subtract(scene.light->coord, p));
     bool inter_light = inter_scene_ray(scene, pos_light, &dis);
@@ -54,7 +55,6 @@ bool check_shadow(t_scene scene, t_vec p, t_vec n, t_obj inter_obj, t_vec *px_co
         px_color->z = 0;
         return true;
     }
-
     return false;
 }
 
@@ -75,7 +75,6 @@ bool compute_intersection_color(t_scene scene, t_ray ray, t_vec *p, t_vec *n, t_
             return true;
         }
     }
-
     return false;
 }
 
