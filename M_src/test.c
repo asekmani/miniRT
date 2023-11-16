@@ -37,7 +37,7 @@ t_scene create_scene()
     // create light
     t_light *light;
     light = malloc(sizeof(t_light));
-    light->coord.x = 30;
+    light->coord.x = 0;
     light->coord.y = 50;
     light->coord.z = -20;
     light->ratio = 100000000;

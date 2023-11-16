@@ -22,8 +22,6 @@ t_vec vec_add(t_vec v1, t_vec v2)
     result.z = v1.z + v2.z;
     return result;
 }
-
-
 // Soustraction de deux vecteurs
 t_vec vec_subtract(t_vec v1, t_vec v2)
 {
@@ -34,7 +32,6 @@ t_vec vec_subtract(t_vec v1, t_vec v2)
     result.z = v1.z - v2.z;
     return result;
 }
-
 // Multiplication d'un vecteur par un scalaire
 t_vec vec_multiply(t_vec v, double scalar)
 {
@@ -45,19 +42,16 @@ t_vec vec_multiply(t_vec v, double scalar)
     result.z = v.z * scalar;
     return result;
 }
-
 // Produit scalaire de deux vecteurs
 double dot_product(t_vec v1, t_vec v2)
 {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
-
 // Norme (magnitude) d'un vecteur
 double vec_length(t_vec v)
 {
     return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
-
 // Division d'un vecteur par un scalaire
 t_vec vec_divide(t_vec v, double scalar)
 {
@@ -80,7 +74,6 @@ t_vec vec_divide(t_vec v, double scalar)
         return result;
     }
 }
-
 // Normalisation d'un vecteur (rendre sa norme égale à 1)
 t_vec normalize(t_vec v)
 {
@@ -93,7 +86,7 @@ t_vec normalize(t_vec v)
     result.z = v.z / length;
     return result;
 }
-
+// Normalisation d'une couleur
 t_vec normalize_color(t_vec v)
 {
     t_vec result;
@@ -104,8 +97,7 @@ t_vec normalize_color(t_vec v)
     return result;
 
 }
-
-// calcul norm
+// calcul de norme
 double norm(t_vec v)
 {
     return v.x * v.x + v.y * v.y + v.z * v.z;
