@@ -130,6 +130,22 @@ typedef struct s_minirt
 
 }				t_minirt;
 
+typedef struct s_color_calculator
+{
+	t_vec p; 
+	t_vec n;
+	t_obj inter_obj;
+	bool inter;
+	t_vec color_result;
+	t_vec coord_light;
+	t_vec norm_light;
+	t_ray pos_light;
+	bool inter_light;
+	double dis;
+	double pixel;
+}		 t_color_calculator;
+
+
 /*Global*/
 extern t_alloc		*g_memory;
 
@@ -194,4 +210,9 @@ bool inter_scene_ray(t_scene scene, t_ray ray, double *t);
 
 
 t_scene create_scene();
+t_vec create_vector();
+t_ray create_ray();
+t_obj create_t_obj();
+t_color_calculator init_color_calculator();
+
 #endif

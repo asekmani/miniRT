@@ -70,3 +70,52 @@ t_obj	*init_obj(t_minirt *rt)
 	rt->scene->obj = new;
 	return (new);
 }
+
+t_vec create_vector(){
+	t_vec result;
+	result.x = 0;
+	result.y = 0;
+	result.z = 0;
+	return result;
+}
+
+t_ray create_ray(){
+	t_ray result;
+	result.coord = create_vector();
+	result.direc = create_vector();
+	return result;
+}
+
+t_obj create_t_obj()
+{
+	t_obj result;
+	result.color = create_vector();
+	result.coord = create_vector();
+	result.cy_axe = create_vector();
+	result.id = 0;
+	result.next = NULL;
+	result.orient = create_vector();
+	result.p = create_vector();
+	return result;
+
+}
+
+t_color_calculator init_color_calculator()
+{
+
+	t_color_calculator result;
+	result.color_result = create_vector();
+	result.inter_obj = create_t_obj();
+	result.coord_light = create_vector();
+	result.n = create_vector();
+	result.p = create_vector();
+	result.pos_light = create_ray();
+	result.norm_light = create_vector();
+	result.dis = 0;
+	result.inter = false;
+	result.inter_light = false;
+	result.pixel = 0;
+	result.pos_light = create_ray();
+	result.norm_light = create_vector();
+	return result;
+}
