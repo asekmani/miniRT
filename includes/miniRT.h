@@ -198,7 +198,7 @@ t_vec 		vec_subtract(t_vec v1, t_vec v2);
 t_vec 		vec_multiply(t_vec v, double scalar);
 t_vec 		vec_divide(t_vec v, double scalar);
 t_vec 		normalize(t_vec v);
-t_vec 		normalize_color(t_vec v);
+t_vec 		norm_color(t_vec v);
 double 		dot_product(t_vec v1, t_vec v2);
 double 		vec_length(t_vec v);
 double 		norm(t_vec v);

@@ -87,7 +87,7 @@ t_vec normalize(t_vec v)
     return result;
 }
 // Normalisation d'une couleur
-t_vec normalize_color(t_vec v)
+t_vec norm_color(t_vec v)
 {
     t_vec result;
     
