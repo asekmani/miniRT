@@ -36,6 +36,8 @@ void color_adjust(t_vec *col_res)
 t_vec calcul_color(t_scene sc, t_ray ray)
 {
 	t_color_calculator cc;
+	t_vec nc;
+	
 	cc = init_color_calculator();
 	cc.inter = inter_scene(sc, ray, &cc.p, &cc.n, &cc.inter_obj);
 	if (cc.inter)
@@ -50,7 +52,6 @@ t_vec calcul_color(t_scene sc, t_ray ray)
 			if (dot_product(cc.norm_light, cc.n) > 0)
 				cc.pixel = sc.light->ratio * dot_product(cc.norm_light, cc.n);
 				cc.pixel /= norm(cc.coord_light);
-				t_vec nc;
 				nc = norm_color(cc.inter_obj.color);
 			cc.color_result = vec_multiply(nc, cc.pixel);
 			color_adjust(&cc.color_result);
