@@ -97,5 +97,6 @@ char	**ft_split(char const *str, char c)
 		while (*str != '\0' && *str != c)
 			str++;
 	}
+	res[i] = 0;
 	return (res);
 }

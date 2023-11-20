@@ -52,7 +52,7 @@ t_ray create_ray_cam(t_minirt *rt, double i, double j)
 
 void camera_parse(t_minirt *rt, char **arv)
 {
-	if (!arv || !arv[1] || !arv[2] || !arv[3] || arv[4])
+	if ((!arv) || (!arv[1]) || (!arv[2]) || (!arv[3]) || (arv[4]))
 		error_msg("invalid args for camera !");
 	if (rt->scene->camera.counter != 0)
 		error_msg("Error : no more than one camera");

@@ -33,7 +33,8 @@ void color_adjust(t_vec *col_res)
 	col_res->y = (col_res->y > 255) ? 255 : ((col_res->y < 0) ? 0 : col_res->y);
 	col_res->z = (col_res->z > 255) ? 255 : ((col_res->z < 0) ? 0 : col_res->z);
 }
-t_vec calcul_color(t_scene sc, t_ray ray)
+
+t_vec	calcul_color(t_scene sc, t_ray ray)
 {
 	t_color_calculator cc;
 	t_vec nc;
@@ -83,7 +84,6 @@ void tracing(t_minirt *rt)
 			double x = (double)j * 2 / W - 1;
 			double y = (double)i * 2 / H - 1;
 			ray = create_ray_cam(rt, x, y);
-
 			px_color = calcul_color(*rt->scene, ray);
 			color = create_rgb(px_color.x, px_color.y, px_color.z);
 			img_pixel_put(&rt->img, j, H - i - 1, color);

@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define W 500
-# define H 500
+# define W 1000
+# define H 1000
 
 # define EPS 0.000001
 # define PI 3.14159265358979323846264338327950288
