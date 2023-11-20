@@ -12,87 +12,40 @@
 
 #include "../includes/miniRT.h"
 
-int	ft_strchr_gnl(char *s, char c)
+char	*ft_strjoin(char *s, char c)
 {
-	int	i;
+	char	*out;
+	int		n;
 
-	i = 0;
-	if(!s)
-		return (0);
-	while(s[i])
+	n = 2;
+	if (s)
+		while (*s && s++)
+			n++;
+	out = malloc(n * sizeof(char));
+	out[--n] = '\0';
+	out[--n] = c;
+	if (s)
 	{
-		if (s[i] == c)
-			return (1);
-		i++;
+		while (n--)
+			out[n] = *--s;
+		free(s);
 	}
-	return (0);
+	return (out);
 }
 
-char	*ft_join_gnl(char *s1, char c)
+char	*get_next_line(int fd)
 {
-	char	*join;
-	int		i;
+	char		c;
+	static char	*line = NULL;
 
-	i = -1;
-	if (!s1)
-	{
-		s1 = malloc(sizeof(char) * 1);
-		s1[0] = 0;
-	}
-	join = malloc(ft_strlen(s1) + 2);
-	if (!join)
-		return (free(s1), NULL);
-	while (s1[++i])
-		join[i] = s1[i];
-	join[i] = c;
-	join[i + 1] = '\0';
-	free(s1);
-	return (join);
-}
-
-void	ft_clean_gnl(char *line, char *buff)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while(line[i] && line[i] != 10)
-		i++;
-	if (line[i] == 10)
-		i++;
-	while (line[i])
-	{
-		buff[j] = line[i];
-		line[i] = '\0';
-		i++;
-		j++;
-	}
-	buff[j] = '\0';
-}
-
-char	*get_next_line(int	fd)
-{
-	char	buffer[2];
-	char	*line;
-	int		byte_read;
-
-	if (fd < 0)
-		return (NULL);
+	if (line)
+		free(line);
 	line = NULL;
-	while (1)
+	while (read(fd, &c, 1) && (c != '\n' || line == NULL))
 	{
-		byte_read = read(fd, buffer, 1);
-		if (byte_read < 0)
-			return (free(line), NULL);
-		if (byte_read == 0 || ft_strchr_gnl(line, '\n'))
-			break;
-		buffer[byte_read] = 0;
-		line = ft_join_gnl(line, buffer[0]);
+		if (c == '\n')
+			continue ;
+		line = ft_strjoin(line, c);
 	}
-	if (!line || !line[0])
-		return(free(line), NULL);
-	else
-		ft_clean_gnl(line, buffer);
 	return (line);
 }

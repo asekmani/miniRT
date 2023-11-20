@@ -26,9 +26,9 @@ int create_rgb(int r, int g, int b)
 
 void color_adjust(t_vec *col_res)
 {
-	col_res->x = pow(col_res->x, 1 / 2.2);
-	col_res->y = pow(col_res->y, 1 / 2.2);
-	col_res->z = pow(col_res->z, 1 / 2.2);
+	// col_res->x = pow(col_res->x, 1 / 2.2);
+	// col_res->y = pow(col_res->y, 1 / 2.2);
+	// col_res->z = pow(col_res->z, 1 / 2.2);
 	col_res->x = (col_res->x > 255) ? 255 : ((col_res->x < 0) ? 0 : col_res->x);
 	col_res->y = (col_res->y > 255) ? 255 : ((col_res->y < 0) ? 0 : col_res->y);
 	col_res->z = (col_res->z > 255) ? 255 : ((col_res->z < 0) ? 0 : col_res->z);
@@ -37,10 +37,8 @@ t_vec calcul_color(t_scene sc, t_ray ray)
 {
 	t_color_calculator cc;
 	t_vec nc;
-	
 	cc = init_color_calculator();
-	cc.inter = inter_scene(sc, ray, &cc.p, &cc.n, &cc.inter_obj);
-	if (cc.inter)
+	if (inter_scene(sc, ray, &cc.p, &cc.n, &cc.inter_obj))
 	{
 		cc.coord_light = vec_subtract(sc.light->coord, cc.p);
 		cc.norm_light = normalize(cc.coord_light);
@@ -49,11 +47,17 @@ t_vec calcul_color(t_scene sc, t_ray ray)
 		cc.inter_light = inter_scene_ray(sc, cc.pos_light, &cc.dis);
 		if (!cc.inter_light || cc.dis * cc.dis >= norm(cc.coord_light))
 		{
+			cc.n = vec_multiply(cc.n, -1);
 			if (dot_product(cc.norm_light, cc.n) > 0)
-				cc.pixel = sc.light->ratio * dot_product(cc.norm_light, cc.n);
-				cc.pixel /= norm(cc.coord_light);
-				nc = norm_color(cc.inter_obj.color);
+				cc.pixel = 10000 * dot_product(cc.norm_light, cc.n);
+			cc.pixel /= norm(cc.coord_light);
+
+			nc = norm_color(cc.inter_obj.color);
+
 			cc.color_result = vec_multiply(nc, cc.pixel);
+			cc.color_result.x = cc.color_result.x * sc.light->color.x / 255 * sc.light->ratio;
+			cc.color_result.y = cc.color_result.y * sc.light->color.y / 255 * sc.light->ratio;
+			cc.color_result.x = cc.color_result.z * sc.light->color.z / 255 * sc.light->ratio;
 			color_adjust(&cc.color_result);
 		}
 	}
@@ -62,32 +66,30 @@ t_vec calcul_color(t_scene sc, t_ray ray)
 
 void tracing(t_minirt *rt)
 {
-	t_scene scene;
+
 	t_ray ray;
 	t_vec px_color;
 	int color;
 	int i;
 	int j;
 
-	scene = create_scene();
-	i = 0;
-	while (i < H)
+	i = H - 1;
+
+	while (i >= 0)
 	{
 		j = 0;
 		while (j < W)
 		{
-			// creation de rayon: l'origine de rayon est la position de camera, direction est le pixel courant
-			ray.coord = scene.camera.coord;
-			ray.direc.x = j - W / 2;
-			ray.direc.y = i - H / 2;
-			ray.direc.z = -W / (2 * tan(scene.camera.FOV / 2));
-			ray.direc = normalize(ray.direc);
-			px_color = calcul_color(scene, ray);
+			double x = (double)j * 2 / W - 1;
+			double y = (double)i * 2 / H - 1;
+			ray = create_ray_cam(rt, x, y);
+
+			px_color = calcul_color(*rt->scene, ray);
 			color = create_rgb(px_color.x, px_color.y, px_color.z);
 			img_pixel_put(&rt->img, j, H - i - 1, color);
 			j++;
 		}
-		i++;
+		i--;
 	}
 }
 

@@ -15,10 +15,11 @@
 
 # define MLX_ERROR 1
 
-# define W 1000
-# define H 1000
+# define W 500
+# define H 500
 
 # define EPS 0.000001
+# define PI 3.14159265358979323846264338327950288
 # define CY 2
 # define PL 4
 # define SP 6
@@ -107,7 +108,14 @@ typedef struct t_cam
 	int		counter;
 	t_vec	coord;
 	t_vec	orient;
+	t_vec forward;
 	double	FOV;
+	double aspect;
+	double tan;
+	t_vec up;
+	t_vec right;
+
+
 }				t_cam;
 
 typedef struct s_scene
@@ -144,6 +152,21 @@ typedef struct s_color_calculator
 	double dis;
 	double pixel;
 }		 t_color_calculator;
+
+typedef struct cylinder
+{
+	double	a;
+	double	b;
+	double	c;
+	double	t;
+	double	t1;
+	double	t2;
+	double	delta;
+	double	y0;
+	double	y1;
+	t_vec	oc;
+	t_vec	normal;
+}	t_cylinder;
 
 
 /*Global*/
@@ -211,8 +234,11 @@ bool inter_scene_ray(t_scene scene, t_ray ray, double *t);
 
 t_scene create_scene();
 t_vec create_vector();
+t_vec create_vectorv(double x, double y, double z);
 t_ray create_ray();
 t_obj create_t_obj();
 t_color_calculator init_color_calculator();
+t_vec vect_cross(t_vec u, t_vec v);
+t_ray create_ray_cam(t_minirt *rt,double x, double y);
 
 #endif

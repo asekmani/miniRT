@@ -86,16 +86,25 @@ t_vec normalize(t_vec v)
     result.z = v.z / length;
     return result;
 }
+
+t_vec vect_cross(t_vec u, t_vec v)
+{
+    t_vec w;
+
+    w.x = (u.y * v.z) - (u.z * v.y);
+    w.y = (u.x * v.z) - (u.z * v.x);
+    w.z = (u.x * v.y) - (u.y * v.x);
+    return (w);
+}
 // Normalisation d'une couleur
 t_vec norm_color(t_vec v)
 {
     t_vec result;
-    
+
     result.x = v.x / 255;
     result.y = v.y / 255;
     result.z = v.z / 255;
     return result;
-
 }
 // calcul de norme
 double norm(t_vec v)
