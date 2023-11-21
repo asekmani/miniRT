@@ -110,19 +110,19 @@ t_obj create_t_obj()
 	return result;
 }
 
-t_intersection create_int()
+t_inter create_inter()
 {
-	t_intersection inter;
+	t_inter inter;
 	inter.n = create_vector();
 	inter.p = create_vector();
 	inter.t = -1;
 	return inter;
 }
 
-t_color_calculator init_color_calculator()
+t_color_cal init_color_calculator()
 {
 
-	t_color_calculator result;
+	t_color_cal result;
 	result.color_result = create_vector();
 	result.inter_obj = create_t_obj();
 	result.coord_light = create_vector();

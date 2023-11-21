@@ -70,13 +70,15 @@ t_vec vec_divide(t_vec v, double scalar)
         result.z = v.z / scalar;
         return result;
     }
+    // Gestion du cas où le scalaire est égal à zéro (vous pouvez choisir le comportement approprié)
+    // Par exemple, renvoyer un vecteur nul ou lever une erreur.
+    // Dans cet exemple, renvoyer un vecteur nul.
     else
     {
-        // Gestion du cas où le scalaire est égal à zéro (vous pouvez choisir le comportement approprié)
-        // Par exemple, renvoyer un vecteur nul ou lever une erreur.
-        // Dans cet exemple, renvoyer un vecteur nul.
-        t_vec result = {0.0, 0.0, 0.0};
-        return result;
+        t_vec result;
+
+        result = (t_vec){0.0, 0.0, 0.0};
+        return(result);
     }
 }
 // Normalisation d'un vecteur (rendre sa norme égale à 1)

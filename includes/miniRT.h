@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define W 1000
-# define H 1000
+# define W 600
+# define H 600
 
 # define EPS 0.000001
 # define PI 3.14159265358979323846264338327950288
@@ -133,20 +133,20 @@ typedef struct s_minirt
 
 }				t_minirt;
 
-typedef struct s_color_calculator
+typedef struct s_color_cal
 {
 	t_vec p; 
 	t_vec n;
 	t_obj inter_obj;
-	bool inter;
 	t_vec color_result;
 	t_vec coord_light;
 	t_vec norm_light;
 	t_ray pos_light;
+	bool inter;
 	bool inter_light;
 	double dis;
 	double pixel;
-}		 t_color_calculator;
+}		 t_color_cal;
 
 typedef struct cylinder
 {
@@ -163,12 +163,12 @@ typedef struct cylinder
 	t_vec	normal;
 }	t_cylinder;
 
-typedef struct s_intersection
+typedef struct s_inter
 {
 	t_vec p;
 	t_vec n;
 	double t;
-} t_intersection;
+} t_inter;
 
 typedef struct sphere
 {
@@ -194,8 +194,10 @@ void		*ft_calloc(size_t nmemb, size_t size);
 void		free_split(char **s);
 
 /*Render*/
+void 		tracing(t_minirt *rt);
 void		render_rt(t_minirt *rt);
 void		img_pixel_put(t_img *img, int x, int y, int color);
+int			shade(t_scene *sc,  t_inter inter, t_light *light);
 
 /*Exit*/
 void		clean_exit(int exit_code, t_minirt *rt);
@@ -239,22 +241,32 @@ double 		vec_length(t_vec v);
 double 		norm(t_vec v);
 
 /*Intersection*/
-bool inter_sphere(t_ray ray, t_obj sp, t_intersection *inter);
-bool inter_scene(t_scene scene, t_ray ray,t_intersection *inter, t_obj *s);
-bool inter_scene_ray(t_scene scene, t_ray ray, double *t);
+bool 		inter_sphere(t_ray ray, t_obj sp, t_inter *inter);
+bool 		inter_scene(t_scene scene, t_ray ray,t_inter *inter, t_obj *s);
+bool 		inter_scene_ray(t_scene scene, t_ray ray, double *t);
 
+/*Camera*/
+t_ray		create_ray_cam(t_minirt *rt, double i, double j);
+void		set_camera_scene(t_minirt *rt);
 
-t_scene create_scene();
-t_vec create_vector();
-t_vec create_vectorv(double x, double y, double z);
-t_ray create_ray();
-t_obj create_t_obj();
-t_color_calculator init_color_calculator();
-t_vec vect_cross(t_vec u, t_vec v);
-t_ray create_ray_cam(t_minirt *rt,double x, double y);
-t_intersection create_int();
-t_vec calcul_coef_color(t_vec obj_color, t_vec amb_col, double ratio);
-t_vec	add_color(t_vec col1, t_vec col2);
-double	module_v(t_vec	v);
+/*Color*/
+int 		create_rgb(int r, int g, int b);
+void 		color_adjust(t_vec *col_res);
+t_vec		diffuse(t_obj obj_int, t_light *light, double d);
+t_vec		calcul_color(t_scene sc, t_ray ray);
+t_vec		calcul_light_color(t_scene *sc, t_inter inter,t_obj obj_int, t_vec amb);
+
+/*Ray*/
+double		module_v(t_vec	v);
+t_vec 		vect_cross(t_vec u, t_vec v);
+t_vec 		create_vector();
+t_vec 		create_vectorv(double x, double y, double z);
+t_vec 		calcul_coef_color(t_vec obj_color, t_vec amb_col, double ratio);
+t_vec		add_color(t_vec col1, t_vec col2);
+t_ray 		create_ray();
+t_obj 		create_t_obj();
+t_scene 	create_scene();
+t_inter 	create_inter();
+t_color_cal init_color_calculator();
 
 #endif

@@ -21,6 +21,8 @@ M_SRCS = M_src/miniRT.c \
 		 M_src/utils.c \
          M_src/render.c \
          M_src/exit.c \
+         M_src/ft_color.c \
+         M_src/ft_camera.c \
          M_src/ft_split.c \
          M_src/get_next_line.c \
          M_src/Memory_allocator.c \

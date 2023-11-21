@@ -34,11 +34,10 @@ bool pick_cy_inter(t_cylinder inf, t_ray *ray, t_obj *cy, double *t)
         *t = (inf.t1);
         return true;
     }
-
     return false;
 }
 
-bool inter_cylindre(t_ray ray, t_obj obj, t_intersection *inter)
+bool inter_cylindre(t_ray ray, t_obj obj, t_inter *inter)
 {
     t_cylinder inf;
     t_vec oc;
@@ -63,7 +62,7 @@ bool inter_cylindre(t_ray ray, t_obj obj, t_intersection *inter)
     return false;
 }
 
-bool inter_plan(t_ray ray, t_obj obj, t_intersection *inter)
+bool inter_plan(t_ray ray, t_obj obj, t_inter *inter)
 {
 
     double b;
@@ -93,7 +92,8 @@ double	take_min(double x, double y)
 		return (y);
 	return (x);
 }
-bool inter_sphere(t_ray ray, t_obj sp, t_intersection *inter)
+
+bool inter_sphere(t_ray ray, t_obj sp, t_inter *inter)
 {
 
    t_sphere	sph;
@@ -127,27 +127,29 @@ bool inter_sphere(t_ray ray, t_obj sp, t_intersection *inter)
    
 }
 
-
-bool inter_scene(t_scene scene,t_ray ray, t_intersection *inter, t_obj *s)
+bool inter_scene(t_scene scene,t_ray ray, t_inter *inter, t_obj *s)
 {
     t_obj *obj;
+    t_inter local_inter;
+    bool has_inter;
+    bool local_has_inter;
+    double min_t;
+
+    has_inter = false;
+    min_t = DBL_MAX;
     obj = scene.obj;
-    bool has_intersect;
-    has_intersect = false;
-    double min_t = DBL_MAX;
     while (obj != NULL)
     {
-       t_intersection local_inter = create_int();
-        bool local_has_intersect;
+        local_inter = create_inter();
         if (obj->id == SP)
-            local_has_intersect = inter_sphere(ray, *obj, &local_inter);
+            local_has_inter = inter_sphere(ray, *obj, &local_inter);
         if (obj->id == PL)
-            local_has_intersect = inter_plan(ray, *obj, &local_inter);
+            local_has_inter = inter_plan(ray, *obj, &local_inter);
         if (obj->id == CY)
-            local_has_intersect = inter_cylindre(ray, *obj, &local_inter);
-        if (local_has_intersect)
+            local_has_inter = inter_cylindre(ray, *obj, &local_inter);
+        if (local_has_inter)
         {
-            has_intersect = true;
+            has_inter = true;
             if (local_inter.t < min_t)
             {
                 min_t = local_inter.t;
@@ -158,32 +160,32 @@ bool inter_scene(t_scene scene,t_ray ray, t_intersection *inter, t_obj *s)
         }
         obj = obj->next;
     }
-    return has_intersect;
+    return has_inter;
 }
 
 bool inter_scene_ray(t_scene scene, t_ray ray, double *t)
 {
     t_obj *sphere;
+    t_inter local_inter;
+    double min_t;
+    bool has_inter;
+    bool local_has_inter;
+
+    min_t = DBL_MAX;
+    has_inter = false;
     sphere = scene.obj;
-    bool has_intersect;
-    has_intersect = false;
-    double min_t = DBL_MAX;
-    t_intersection local_inter;
     while (sphere != NULL)
     {
-        local_inter = create_int();
-        bool local_has_intersect;
-        local_has_intersect = inter_sphere(ray, *sphere, &local_inter);
-        if (local_has_intersect)
+        local_inter = create_inter();
+        local_has_inter = inter_sphere(ray, *sphere, &local_inter);
+        if (local_has_inter)
         {
-            has_intersect = true;
+            has_inter = true;
             if (local_inter.t < min_t)
-            {
                 min_t = local_inter.t;
-            }
         }
         sphere = sphere->next;
     }
     *t = min_t;
-    return has_intersect;
+    return (has_inter);
 }
