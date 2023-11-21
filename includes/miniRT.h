@@ -216,6 +216,12 @@ void		init_minirt(t_minirt	*rt);
 t_scene		*init_scence(void);
 t_light		*init_light(t_minirt *rt);
 t_obj		*init_obj(t_minirt *rt);
+t_color_cal init_color_calculator();
+t_inter 	create_inter();
+t_vec 		create_vector();
+t_vec 		create_vectorv(double x, double y, double z);
+t_ray 		create_ray();
+t_obj 		create_t_obj();
 
 /*Parsing*/
 t_vec		color_parse(char *str);
@@ -234,10 +240,11 @@ t_vec 		vec_add(t_vec v1, t_vec v2);
 t_vec 		vec_subtract(t_vec v1, t_vec v2);
 t_vec 		vec_multiply(t_vec v, double scalar);
 t_vec 		vec_divide(t_vec v, double scalar);
+t_vec 		vect_cross(t_vec u, t_vec v);
 t_vec 		normalize(t_vec v);
-t_vec 		norm_color(t_vec v);
-double 		dot_product(t_vec v1, t_vec v2);
+double		vec_module(t_vec v);
 double 		vec_length(t_vec v);
+double 		dot_product(t_vec v1, t_vec v2);
 double 		norm(t_vec v);
 
 /*Intersection*/
@@ -256,17 +263,11 @@ t_vec		diffuse(t_obj obj_int, t_light *light, double d);
 t_vec		calcul_color(t_scene sc, t_ray ray);
 t_vec		calcul_light_color(t_scene *sc, t_inter inter,t_obj obj_int, t_vec amb);
 
-/*Ray*/
-double		module_v(t_vec	v);
-t_vec 		vect_cross(t_vec u, t_vec v);
-t_vec 		create_vector();
-t_vec 		create_vectorv(double x, double y, double z);
+/*Color_vectors*/
+
+
 t_vec 		calcul_coef_color(t_vec obj_color, t_vec amb_col, double ratio);
 t_vec		add_color(t_vec col1, t_vec col2);
-t_ray 		create_ray();
-t_obj 		create_t_obj();
-t_scene 	create_scene();
-t_inter 	create_inter();
-t_color_cal init_color_calculator();
+t_vec 		norm_color(t_vec v);
 
 #endif

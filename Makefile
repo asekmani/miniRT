@@ -27,11 +27,13 @@ M_SRCS = M_src/miniRT.c \
          M_src/get_next_line.c \
          M_src/Memory_allocator.c \
          M_src/init_struct.c \
+         M_src/init_struct_2.c \
          M_src/parsing.c \
          M_src/elements_parse.c \
          M_src/shapes_parse.c \
          M_src/params_parse.c \
 		 M_src/vector_operations.c \
+         M_src/vector_operations_2.c \
          M_src/intersection.c \
 		 M_src/test.c
 

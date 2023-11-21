@@ -111,13 +111,3 @@ int	ft_atoi(const char *str)
 }
 
 
-t_vec calcul_coef_color(t_vec obj_color, t_vec amb_col, double ratio)
-{
-	t_vec result;
-
-	result.x = obj_color.x * (amb_col.x / 255) * ratio; 
-	result.y = obj_color.y * (amb_col.y / 255) * ratio; 
-	result.z = obj_color.z * (amb_col.z / 255) * ratio; 
-	return result;
-}
-

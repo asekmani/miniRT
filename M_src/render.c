@@ -34,7 +34,7 @@ int	shade(t_scene *sc,  t_inter inter, t_light *light)
 	shadow.t = -1;
 	bool inters = inter_scene(*sc, sh_ray, &shadow, &local_inter);
 	hit_sh = vec_subtract(shadow.p, sh_ray.coord);
-	if (inters && (module_v(hit_light) > module_v(hit_sh)))
+	if (inters && (vec_module(hit_light) > vec_module(hit_sh)))
 		return (1);
 	return (0);
 }

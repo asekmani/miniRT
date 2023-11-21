@@ -12,7 +12,7 @@
 
 #include "../includes/miniRT.h"
 
-void init_minirt(t_minirt *rt)
+void	init_minirt(t_minirt *rt)
 {
 	rt->vars.mlx = mlx_init();
 	if (rt->vars.mlx == NULL)
@@ -25,12 +25,12 @@ void init_minirt(t_minirt *rt)
 	}
 	rt->img.img = mlx_new_image(rt->vars.mlx, W, H);
 	rt->img.addr = mlx_get_data_addr(rt->img.img, &rt->img.bits_per_pixel,
-									 &rt->img.line_length, &rt->img.endian);
+			&rt->img.line_length, &rt->img.endian);
 }
 
-t_scene *init_scence(void)
+t_scene	*init_scence(void)
 {
-	t_scene *scene;
+	t_scene	*scene;
 
 	g_memory = NULL;
 	scene = memory_adr(&g_memory, (sizeof(t_scene)));
@@ -43,9 +43,9 @@ t_scene *init_scence(void)
 	return (scene);
 }
 
-t_light *init_light(t_minirt *rt)
+t_light	*init_light(t_minirt *rt)
 {
-	t_light *new;
+	t_light	*new;
 
 	new = malloc(sizeof(t_light));
 	if (!new)
@@ -55,9 +55,9 @@ t_light *init_light(t_minirt *rt)
 	return (new);
 }
 
-t_obj *init_obj(t_minirt *rt)
+t_obj	*init_obj(t_minirt *rt)
 {
-	t_obj *new;
+	t_obj	*new;
 
 	new = memory_adr(&g_memory, sizeof(t_obj));
 	if (!new)
@@ -71,58 +71,10 @@ t_obj *init_obj(t_minirt *rt)
 	return (new);
 }
 
-t_vec create_vectorv(double x, double y, double z)
+t_color_cal	init_color_calculator(void)
 {
-	t_vec result;
-	result.x = x;
-	result.y = y;
-	result.z = z;
-	return result;
-}
+	t_color_cal	result;
 
-t_vec create_vector()
-{
-	t_vec result;
-	result.x = 0;
-	result.y = 0;
-	result.z = 0;
-	return result;
-}
-
-t_ray create_ray()
-{
-	t_ray result;
-	result.coord = create_vector();
-	result.direc = create_vector();
-	return result;
-}
-
-t_obj create_t_obj()
-{
-	t_obj result;
-	result.color = create_vector();
-	result.coord = create_vector();
-	result.cy_axe = create_vector();
-	result.id = 0;
-	result.next = NULL;
-	result.orient = create_vector();
-	result.p = create_vector();
-	return result;
-}
-
-t_inter create_inter()
-{
-	t_inter inter;
-	inter.n = create_vector();
-	inter.p = create_vector();
-	inter.t = -1;
-	return inter;
-}
-
-t_color_cal init_color_calculator()
-{
-
-	t_color_cal result;
 	result.color_result = create_vector();
 	result.inter_obj = create_t_obj();
 	result.coord_light = create_vector();
@@ -136,5 +88,5 @@ t_color_cal init_color_calculator()
 	result.pixel = 0;
 	result.pos_light = create_ray();
 	result.norm_light = create_vector();
-	return result;
+	return (result);
 }
