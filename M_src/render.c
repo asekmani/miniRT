@@ -33,36 +33,71 @@ void color_adjust(t_vec *col_res)
 	col_res->y = (col_res->y > 255) ? 255 : ((col_res->y < 0) ? 0 : col_res->y);
 	col_res->z = (col_res->z > 255) ? 255 : ((col_res->z < 0) ? 0 : col_res->z);
 }
+int	shade(t_scene *sc,  t_intersection inter, t_light *light)
+{
+	t_vec		hit_light;
+	t_ray	sh_ray;
+	t_intersection		shadow;
+	t_vec		hit_sh;
+	t_obj local_inter;
+
+	hit_light = vec_subtract(light->coord, inter.p);
+	sh_ray.coord = inter.p;
+	sh_ray.direc = normalize(hit_light);
+	shadow.t = -1;
+	bool inters = inter_scene(*sc, sh_ray, &shadow, &local_inter);
+	hit_sh = vec_subtract(shadow.p, sh_ray.coord);
+	if (inters && (module_v(hit_light) > module_v(hit_sh)))
+		return (1);
+	return (0);
+}
+
+t_vec	diffuse(t_obj obj_int, t_light *light, double d)
+{
+	t_vec	diff;
+
+	diff = calcul_coef_color(obj_int.color, light->color, d * light->ratio);
+	return (diff);
+}
+t_vec	calcul_light_color(t_scene *sc, t_intersection inter,t_obj obj_int, t_vec amb)
+{
+	t_light		*light;
+	t_vec		ret;
+	t_vec		hit_light;
+	double		d;
+
+	ret = create_vectorv(0, 0, 0);
+	light = sc->light;
+	if (!light)
+		return (amb);
+	if (shade(sc, inter, light))
+		ret = add_color(ret, amb);
+	else
+	{
+		hit_light = vec_subtract(light->coord, inter.p);
+		d = dot_product(normalize(hit_light), inter.n);
+		ret = add_color(ret, amb);
+		if (d > 0)
+			ret = add_color(ret, diffuse(obj_int, light, d));
+	}
+	return (ret);
+}
 
 t_vec	calcul_color(t_scene sc, t_ray ray)
 {
-	t_color_calculator cc;
-	t_vec nc;
-	cc = init_color_calculator();
-	if (inter_scene(sc, ray, &cc.p, &cc.n, &cc.inter_obj))
+	t_intersection local_inter = create_int();
+	t_obj inter;
+	t_vec base_color;
+	t_vec	px_col;
+	if (inter_scene(sc, ray, &local_inter, &inter))
 	{
-		cc.coord_light = vec_subtract(sc.light->coord, cc.p);
-		cc.norm_light = normalize(cc.coord_light);
-		cc.pos_light.coord = vec_add(cc.p, vec_multiply(cc.n, 0.01));
-		cc.pos_light.direc = cc.norm_light;
-		cc.inter_light = inter_scene_ray(sc, cc.pos_light, &cc.dis);
-		if (!cc.inter_light || cc.dis * cc.dis >= norm(cc.coord_light))
-		{
-			cc.n = vec_multiply(cc.n, -1);
-			if (dot_product(cc.norm_light, cc.n) > 0)
-				cc.pixel = 10000 * dot_product(cc.norm_light, cc.n);
-			cc.pixel /= norm(cc.coord_light);
-
-			nc = norm_color(cc.inter_obj.color);
-
-			cc.color_result = vec_multiply(nc, cc.pixel);
-			cc.color_result.x = cc.color_result.x * sc.light->color.x / 255 * sc.light->ratio;
-			cc.color_result.y = cc.color_result.y * sc.light->color.y / 255 * sc.light->ratio;
-			cc.color_result.x = cc.color_result.z * sc.light->color.z / 255 * sc.light->ratio;
-			color_adjust(&cc.color_result);
-		}
+		base_color = calcul_coef_color(inter.color, sc.ambient.color, sc.ambient.ratio);
+		if(dot_product(ray.direc, local_inter.n) > 0)
+			local_inter.n = vec_multiply(local_inter.n, -1);
+		 px_col = calcul_light_color(&sc, local_inter, inter, base_color);
+		return (px_col);
 	}
-	return cc.color_result;
+	return (vec_multiply(sc.ambient.color, sc.ambient.ratio));
 }
 
 void tracing(t_minirt *rt)
@@ -86,7 +121,7 @@ void tracing(t_minirt *rt)
 			ray = create_ray_cam(rt, x, y);
 			px_color = calcul_color(*rt->scene, ray);
 			color = create_rgb(px_color.x, px_color.y, px_color.z);
-			img_pixel_put(&rt->img, j, H - i - 1, color);
+			img_pixel_put(&rt->img, j, H - 1 - i, color);
 			j++;
 		}
 		i--;

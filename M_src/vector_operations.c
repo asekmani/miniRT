@@ -42,6 +42,11 @@ t_vec vec_multiply(t_vec v, double scalar)
     result.z = v.z * scalar;
     return result;
 }
+
+double	module_v(t_vec	v)
+{
+	return (sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2)));
+}
 // Produit scalaire de deux vecteurs
 double dot_product(t_vec v1, t_vec v2)
 {
@@ -110,4 +115,18 @@ t_vec norm_color(t_vec v)
 double norm(t_vec v)
 {
     return v.x * v.x + v.y * v.y + v.z * v.z;
+}
+
+t_vec	add_color(t_vec col1, t_vec col2)
+{
+	t_vec	res;
+
+	res = vec_add(col1, col2);
+	if (res.x > 255)
+		res.x = 255;
+	if (res.y > 255)
+		res.y = 255;
+	if (res.z > 255)
+		res.z = 255;
+	return (res);
 }

@@ -70,12 +70,7 @@ typedef struct s_ray
 	t_vec			direc;
 }				t_ray;
 
-// typedef struct s_col
-// {
-// 	double	r;
-// 	double	g;
-// 	double	b;
-// }				t_col;
+
 
 typedef struct s_light
 {
@@ -168,6 +163,23 @@ typedef struct cylinder
 	t_vec	normal;
 }	t_cylinder;
 
+typedef struct s_intersection
+{
+	t_vec p;
+	t_vec n;
+	double t;
+} t_intersection;
+
+typedef struct sphere
+{
+	double	a;
+	double	b;
+	double	c;
+	double	t;
+	double	t1;
+	double	t2;
+	t_vec	oc;
+}	t_sphere;
 
 /*Global*/
 extern t_alloc		*g_memory;
@@ -227,8 +239,8 @@ double 		vec_length(t_vec v);
 double 		norm(t_vec v);
 
 /*Intersection*/
-bool inter_sphere(t_ray ray, t_obj sp, t_vec *p, t_vec *n, double *t);
-bool inter_scene(t_scene scene, t_ray ray, t_vec *p, t_vec *n, t_obj *s);
+bool inter_sphere(t_ray ray, t_obj sp, t_intersection *inter);
+bool inter_scene(t_scene scene, t_ray ray,t_intersection *inter, t_obj *s);
 bool inter_scene_ray(t_scene scene, t_ray ray, double *t);
 
 
@@ -240,5 +252,9 @@ t_obj create_t_obj();
 t_color_calculator init_color_calculator();
 t_vec vect_cross(t_vec u, t_vec v);
 t_ray create_ray_cam(t_minirt *rt,double x, double y);
+t_intersection create_int();
+t_vec calcul_coef_color(t_vec obj_color, t_vec amb_col, double ratio);
+t_vec	add_color(t_vec col1, t_vec col2);
+double	module_v(t_vec	v);
 
 #endif

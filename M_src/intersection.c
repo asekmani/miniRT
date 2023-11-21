@@ -38,7 +38,7 @@ bool pick_cy_inter(t_cylinder inf, t_ray *ray, t_obj *cy, double *t)
     return false;
 }
 
-bool inter_cylindre(t_ray ray, t_obj obj, t_vec *p, t_vec *n, double *t)
+bool inter_cylindre(t_ray ray, t_obj obj, t_intersection *inter)
 {
     t_cylinder inf;
     t_vec oc;
@@ -51,19 +51,19 @@ bool inter_cylindre(t_ray ray, t_obj obj, t_vec *p, t_vec *n, double *t)
     inf.delta = inf.b * inf.b - 4 * inf.a * inf.c;
     if (inf.delta < EPS)
         return false;
-    if (pick_cy_inter(inf, &ray, &obj, t))
+    if (pick_cy_inter(inf, &ray, &obj, &inter->t))
     {
-        *p = vec_add(ray.coord, vec_multiply(ray.direc, *t));
+        inter->p = vec_add(ray.coord, vec_multiply(ray.direc, inter->t));
         oc = normalize(obj.orient);
-        m = dot_product(ray.direc, vec_multiply(oc, *t)) + dot_product(vec_subtract(ray.coord, obj.coord), oc);
-        *n = normalize(vec_subtract(vec_subtract(*p, obj.coord),
+        m = dot_product(ray.direc, vec_multiply(oc, inter->t)) + dot_product(vec_subtract(ray.coord, obj.coord), oc);
+        inter->n = normalize(vec_subtract(vec_subtract(inter->p, obj.coord),
                                     vec_multiply(oc, m)));
         return true;
     }
     return false;
 }
 
-bool inter_plan(t_ray ray, t_obj obj, t_vec *p, t_vec *n, double *t)
+bool inter_plan(t_ray ray, t_obj obj, t_intersection *inter)
 {
 
     double b;
@@ -75,71 +75,88 @@ bool inter_plan(t_ray ray, t_obj obj, t_vec *p, t_vec *n, double *t)
     if (b != 0)
     {
         a = dot_product(r_to_obj, normal);
-        *t = -a / b;
-        if (*t < EPS)
+        inter->t = -a / b;
+        if (inter->t < EPS)
             return false;
-        *p = vec_add(ray.coord, vec_multiply(ray.direc, *t));
-        *n = normalize(obj.orient);
-        if (dot_product(ray.direc, obj.orient) < EPS)
-            *n = normalize(vec_multiply(obj.orient, -1));
+        inter->p = vec_add(ray.coord, vec_multiply(ray.direc, inter->t));
+        inter->n = normalize(obj.orient);
+        if (dot_product(ray.direc, inter->n) > __DBL_EPSILON__)
+            inter->n = normalize(vec_multiply(obj.orient, -1));
         return true;
     }
     return false;
 }
-bool inter_sphere(t_ray ray, t_obj sp, t_vec *p, t_vec *n, double *t)
+
+double	take_min(double x, double y)
+{
+	if (x > y)
+		return (y);
+	return (x);
+}
+bool inter_sphere(t_ray ray, t_obj sp, t_intersection *inter)
 {
 
-    double a = 1;
-    double b = 2 * dot_product(ray.direc, vec_subtract(ray.coord, sp.coord));
-    double c = norm(vec_subtract(ray.coord, sp.coord)) - sp.p.x * sp.p.x;
-    double delta = b * b - 4 * a * c;
-    if (delta < 0)
-        return false;
-    double t1 = (-b - sqrt(delta)) / (2 * a);
-    double t2 = (-b + sqrt(delta)) / (2 * a);
-    if (t2 < 0)
-        return false;
-    if (t1 > 0)
-        *t = t1;
-    else
-        *t = t2;
-    *p = vec_add(ray.coord, vec_multiply(ray.direc, *t));
-    *n = normalize(vec_subtract(*p, sp.coord));
+   t_sphere	sph;
 
-    return true;
+	sph.oc = vec_subtract(ray.coord, sp.coord);
+	sph.a = dot_product(ray.direc, ray.direc);
+	sph.b = 2.0 * dot_product(sph.oc, ray.direc);
+	sph.c = dot_product(sph.oc, sph.oc) - (sp.p.x / 2.0) * (sp.p.x / 2.0);
+	sph.t = sph.b * sph.b - (4 * sph.a * sph.c);
+	if (sph.t < EPS)
+		return false;
+	sph.t1 = (sph.b * (-1.0) - sqrt(sph.t)) / (2.0 * sph.a);
+	sph.t2 = (sph.b * (-1.0) + sqrt(sph.t)) / (2.0 * sph.a);
+	if (sph.t1 * sph.t2 > EPS)
+	{
+		if (sph.t1 < EPS)
+         return false;
+        inter->t = take_min(sph.t1, sph.t2);
+	}
+	if (sph.t1 > EPS)
+        inter->t = sph.t1;
+    else
+        inter->t = sph.t2;
+    if(inter->t < EPS){
+        return false;
+    }
+	inter->p = vec_add(ray.coord, vec_multiply(ray.direc, inter->t));
+	inter->n = normalize(vec_subtract(inter->p, sp.coord));	
+	return true;
+
+   
 }
 
-bool inter_scene(t_scene scene, t_ray ray, t_vec *p, t_vec *n, t_obj *s)
+
+bool inter_scene(t_scene scene,t_ray ray, t_intersection *inter, t_obj *s)
 {
-    t_obj *sphere;
-    sphere = scene.obj;
+    t_obj *obj;
+    obj = scene.obj;
     bool has_intersect;
     has_intersect = false;
     double min_t = DBL_MAX;
-    while (sphere != NULL)
+    while (obj != NULL)
     {
-        t_vec local_p;
-        t_vec local_n;
+       t_intersection local_inter = create_int();
         bool local_has_intersect;
-        double local_t;
-        if (sphere->id == SP)
-            local_has_intersect = inter_sphere(ray, *sphere, &local_p, &local_n, &local_t);
-        if (sphere->id == PL)
-            local_has_intersect = inter_plan(ray, *sphere, &local_p, &local_n, &local_t);
-        if (sphere->id == CY)
-            local_has_intersect = inter_cylindre(ray, *sphere, &local_p, &local_n, &local_t);
+        if (obj->id == SP)
+            local_has_intersect = inter_sphere(ray, *obj, &local_inter);
+        if (obj->id == PL)
+            local_has_intersect = inter_plan(ray, *obj, &local_inter);
+        if (obj->id == CY)
+            local_has_intersect = inter_cylindre(ray, *obj, &local_inter);
         if (local_has_intersect)
         {
             has_intersect = true;
-            if (local_t < min_t)
+            if (local_inter.t < min_t)
             {
-                min_t = local_t;
-                *p = local_p;
-                *n = local_n;
-                *s = *sphere;
+                min_t = local_inter.t;
+                inter->p = local_inter.p;
+                inter->n = local_inter.n;
+                *s = *obj;
             }
         }
-        sphere = sphere->next;
+        obj = obj->next;
     }
     return has_intersect;
 }
@@ -151,19 +168,18 @@ bool inter_scene_ray(t_scene scene, t_ray ray, double *t)
     bool has_intersect;
     has_intersect = false;
     double min_t = DBL_MAX;
+    t_intersection local_inter;
     while (sphere != NULL)
     {
-        t_vec local_p;
-        t_vec local_n;
+        local_inter = create_int();
         bool local_has_intersect;
-        double local_t;
-        local_has_intersect = inter_sphere(ray, *sphere, &local_p, &local_n, &local_t);
+        local_has_intersect = inter_sphere(ray, *sphere, &local_inter);
         if (local_has_intersect)
         {
             has_intersect = true;
-            if (local_t < min_t)
+            if (local_inter.t < min_t)
             {
-                min_t = local_t;
+                min_t = local_inter.t;
             }
         }
         sphere = sphere->next;

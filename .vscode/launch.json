@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/miniRT",
-            "args": ["./maps/box.rt"],
+            "args": ["rt_files/test.rt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

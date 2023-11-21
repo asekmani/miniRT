@@ -110,6 +110,15 @@ t_obj create_t_obj()
 	return result;
 }
 
+t_intersection create_int()
+{
+	t_intersection inter;
+	inter.n = create_vector();
+	inter.p = create_vector();
+	inter.t = -1;
+	return inter;
+}
+
 t_color_calculator init_color_calculator()
 {
 
