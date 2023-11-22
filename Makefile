@@ -32,6 +32,7 @@ M_SRCS = M_src/miniRT.c \
          M_src/elements_parse.c \
          M_src/shapes_parse.c \
          M_src/params_parse.c \
+         M_src/color_operations.c \
 		 M_src/vector_operations.c \
          M_src/vector_operations_2.c \
          M_src/intersection.c \
