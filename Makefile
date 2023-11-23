@@ -35,8 +35,9 @@ M_SRCS = M_src/miniRT.c \
          M_src/color_operations.c \
 		 M_src/vector_operations.c \
          M_src/vector_operations_2.c \
+         M_src/obj_inter.c \
+         M_src/obj_inter_utils.c \
          M_src/intersection.c \
-		 M_src/test.c
 
 B_SRCS = B_src/miniRT_bonus.c
 

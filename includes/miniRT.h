@@ -170,7 +170,7 @@ typedef struct s_inter
 	double t;
 } t_inter;
 
-typedef struct sphere
+typedef struct s_sphere
 {
 	double	a;
 	double	b;
@@ -180,6 +180,22 @@ typedef struct sphere
 	double	t2;
 	t_vec	oc;
 }	t_sphere;
+
+typedef struct s_cone
+{
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
+	double	t;
+	double	t1;
+	double	t2;
+	double	y0;
+	double	y1;
+	t_vec	x;
+	t_vec	v;
+	double	k;
+}	t_cone;
 
 /*Global*/
 extern t_alloc		*g_memory;
@@ -248,9 +264,13 @@ double 		dot_product(t_vec v1, t_vec v2);
 double 		norm(t_vec v);
 
 /*Intersection*/
+bool 		inter_plan(t_ray ray, t_obj obj, t_inter *inter);
 bool 		inter_sphere(t_ray ray, t_obj sp, t_inter *inter);
+bool 		inter_cylindre(t_ray ray, t_obj obj, t_inter *inter);
 bool 		inter_scene(t_scene scene, t_ray ray,t_inter *inter, t_obj *s);
+bool 		find_inter_cy(t_cylinder info, t_ray *ray, t_obj *cy, double *t);
 bool 		inter_scene_ray(t_scene scene, t_ray ray, double *t);
+double		take_min(double x, double y);
 
 /*Camera*/
 t_ray		create_ray_cam(t_minirt *rt, double i, double j);

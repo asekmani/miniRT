@@ -12,40 +12,41 @@
 
 #include "../includes/miniRT.h"
 
-void img_pixel_put(t_img *img, int x, int y, int color)
+void	img_pixel_put(t_img *img, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
-int	shade(t_scene *sc,  t_inter inter, t_light *light)
+int	shade(t_scene *sc, t_inter inter, t_light *light)
 {
-	t_vec		hit_light;
+	t_vec	hit_light;
 	t_ray	sh_ray;
-	t_inter		shadow;
-	t_vec		hit_sh;
-	t_obj local_inter;
+	t_inter	shadow;
+	t_vec	hit_sh;
+	t_obj	local_inter;
+	bool	inters;
 
 	hit_light = vec_subtract(light->coord, inter.p);
 	sh_ray.coord = inter.p;
 	sh_ray.direc = normalize(hit_light);
 	shadow.t = -1;
-	bool inters = inter_scene(*sc, sh_ray, &shadow, &local_inter);
+	inters = inter_scene(*sc, sh_ray, &shadow, &local_inter);
 	hit_sh = vec_subtract(shadow.p, sh_ray.coord);
 	if (inters && (vec_module(hit_light) > vec_module(hit_sh)))
 		return (1);
 	return (0);
 }
 
-void tracing(t_minirt *rt)
+void	tracing(t_minirt *rt)
 {
-	double x;
-	double y;
-	int color;
-	int i;
-	int j;
+	double	x;
+	double	y;
+	int		color;
+	int		i;
+	int		j;
 
 	i = H - 1;
 	while (i >= 0)
@@ -65,7 +66,7 @@ void tracing(t_minirt *rt)
 	}
 }
 
-void render_rt(t_minirt *rt)
+void	render_rt(t_minirt *rt)
 {
 	tracing(rt);
 	mlx_put_image_to_window(rt->vars.mlx, rt->vars.win, rt->img.img, 0, 0);
