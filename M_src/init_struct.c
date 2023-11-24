@@ -62,10 +62,10 @@ t_obj	*init_obj(t_minirt *rt)
 	new = memory_adr(&g_memory, sizeof(t_obj));
 	if (!new)
 		return (NULL);
-	new->color.x = new->color.y = new->color.z = 0;
-	new->coord.x = new->coord.y = new->coord.z = 0;
-	new->orient.x = new->orient.y = new->orient.z = 0;
-	new->p.x = new->p.y = new->p.z = 0;
+	new->color = create_vector();
+	new->coord = create_vector();
+	new->orient = create_vector();
+	new->p = create_vector();
 	new->next = rt->scene->obj;
 	rt->scene->obj = new;
 	return (new);

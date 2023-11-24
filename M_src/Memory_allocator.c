@@ -44,7 +44,7 @@ t_alloc	**add_adr(t_alloc **g_memory, void *adr)
 	if (!*g_memory)
 	{
 		*g_memory = node;
-		return(g_memory);
+		return (g_memory);
 	}
 	tmp = *g_memory;
 	while (tmp->next)

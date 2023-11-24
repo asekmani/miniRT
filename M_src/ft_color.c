@@ -19,9 +19,18 @@ int	create_rgb(int r, int g, int b)
 
 void	color_adjust(t_vec *col_res)
 {
-	col_res->x = (col_res->x > 255) ? 255 : ((col_res->x < 0) ? 0 : col_res->x);
-	col_res->y = (col_res->y > 255) ? 255 : ((col_res->y < 0) ? 0 : col_res->y);
-	col_res->z = (col_res->z > 255) ? 255 : ((col_res->z < 0) ? 0 : col_res->z);
+	if (col_res->x > 255)
+		col_res->x = 255;
+	else if (col_res->x < 0)
+		col_res->x = 0;
+	if (col_res->y > 255)
+		col_res->y = 255;
+	else if (col_res->y < 0)
+		col_res->y = 0;
+	if (col_res->z > 255)
+		col_res->z = 255;
+	else if (col_res->z < 0)
+		col_res->z = 0;
 }
 
 t_vec	diffuse(t_obj obj_int, t_light *light, double d)

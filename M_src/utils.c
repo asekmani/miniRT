@@ -27,7 +27,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	void	*res;
 	char	*res_char;
 	size_t	total_size;
-	size_t i;
+	size_t	i;
 
 	if (nmemb >= SIZE_MAX || size >= SIZE_MAX)
 		return (NULL);
@@ -95,8 +95,8 @@ int	ft_atoi(const char *str)
 	i = 0;
 	value = 0;
 	sign = 1;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
 		i++;
 	if (str[i] == '-')
 		sign = -1;
@@ -109,5 +109,3 @@ int	ft_atoi(const char *str)
 	}
 	return (sign * value);
 }
-
-

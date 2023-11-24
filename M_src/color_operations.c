@@ -12,14 +12,14 @@
 
 #include "../includes/miniRT.h"
 
-t_vec norm_color(t_vec v)
+t_vec	norm_color(t_vec v)
 {
-    t_vec result;
+	t_vec	result;
 
-    result.x = v.x / 255;
-    result.y = v.y / 255;
-    result.z = v.z / 255;
-    return result;
+	result.x = v.x / 255;
+	result.y = v.y / 255;
+	result.z = v.z / 255;
+	return (result);
 }
 
 t_vec	add_color(t_vec col1, t_vec col2)
@@ -36,12 +36,12 @@ t_vec	add_color(t_vec col1, t_vec col2)
 	return (res);
 }
 
-t_vec calcul_coef_color(t_vec obj_color, t_vec amb_col, double ratio)
+t_vec	calcul_coef_color(t_vec obj_color, t_vec amb_col, double ratio)
 {
-	t_vec result;
+	t_vec	result;
 
-	result.x = obj_color.x * (amb_col.x / 255) * ratio; 
-	result.y = obj_color.y * (amb_col.y / 255) * ratio; 
-	result.z = obj_color.z * (amb_col.z / 255) * ratio; 
+	result.x = obj_color.x * (amb_col.x / 255) * ratio;
+	result.y = obj_color.y * (amb_col.y / 255) * ratio;
+	result.z = obj_color.z * (amb_col.z / 255) * ratio;
 	return (result);
 }
