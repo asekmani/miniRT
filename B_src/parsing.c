@@ -26,6 +26,8 @@ void	check_id(t_minirt *rt, char **arv, char *id)
 		plane_parse(rt, arv);
 	else if (id[0] == 'c' && id[1] == 'y' && id[2] == '\0')
 		cylinder_parse(rt, arv);
+	else if (id[0] == 'c' && id[1] == 'o' && id[2] == '\0')
+		cone_parse(rt, arv);
 	else
 		error_msg("invalid identifier!!");
 }

@@ -39,7 +39,27 @@ M_SRCS = M_src/miniRT.c \
          M_src/obj_inter_utils.c \
          M_src/intersection.c \
 
-B_SRCS = B_src/miniRT_bonus.c
+B_SRCS = B_src/miniRT_bonus.c \
+         B_src/utils.c \
+         B_src/render.c \
+         B_src/exit.c \
+         B_src/ft_color.c \
+         B_src/ft_camera.c \
+         B_src/ft_split.c \
+         B_src/get_next_line.c \
+         B_src/Memory_allocator.c \
+         B_src/init_struct.c \
+         B_src/init_struct_2.c \
+         B_src/parsing.c \
+         B_src/elements_parse.c \
+         B_src/shapes_parse.c \
+         B_src/params_parse.c \
+         B_src/color_operations.c \
+		 B_src/vector_operations.c \
+         B_src/vector_operations_2.c \
+         B_src/obj_inter.c \
+         B_src/obj_inter_utils.c \
+         B_src/intersection.c \
 
 CFLAGS = -g3 -Wall -Wextra -Werror
 # MFLAGS = libmlx.a -lmlx -framework OpenGL -framework AppKit
