@@ -85,23 +85,6 @@ bool	inter_cylindre(t_ray ray, t_obj obj, t_inter *inter)
 	return (false);
 }
 
-t_cone	create_cone(t_ray ray, t_obj obj)
-{
-	t_cone	co;
-
-	co.k = tan((obj.p.z / 2) * PI / 180.0);
-	co.v = normalize(obj.orient);
-	co.x = vec_subtract(ray.coord, obj.coord);
-	co.a = dot_product(ray.direc, ray.direc) - (1 + pow(co.k, 2.0))
-		* dot_product(ray.direc, co.v) * dot_product(ray.direc, co.v);
-	co.b = 2.0 * (dot_product(ray.direc, co.x) - (1 + pow(co.k, 2.0))
-			* dot_product(ray.direc, co.v) * dot_product(co.x, co.v));
-	co.c = dot_product(co.x, co.x) - (1 + pow(co.k, 2.0))
-		* dot_product(co.x, co.v) * dot_product(co.x, co.v);
-	co.delta = co.b * co.b - (4 * co.a * co.c);
-	return (co);
-}
-
 bool	inter_cone(t_ray ray, t_obj obj, t_inter *inter)
 {
 	t_cone	cone;
@@ -126,4 +109,11 @@ bool	inter_cone(t_ray ray, t_obj obj, t_inter *inter)
 		return (true);
 	}
 	return (false);
+}
+
+double	take_min(double x, double y)
+{
+	if (x > y)
+		return (y);
+	return (x);
 }

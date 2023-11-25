@@ -74,32 +74,3 @@ bool	find_inter_cy(t_cylinder info, t_ray *ray, t_obj *cy, double *t)
 	}
 	return (false);
 }
-
-bool	find_inter_co(t_cone info, t_obj *co, t_ray *ray, double *t)
-{
-	if (info.delta < 0)
-		return (false);
-	info.t1 = (-info.b + sqrt(info.delta)) / (2 * info.a);
-	info.t2 = (-info.b - sqrt(info.delta)) / (2 * info.a);
-	if (info.t1 < EPS)
-		return (false);
-	if (info.t1 > info.t2)
-		info.t = info.t2;
-	else if (info.t1 < info.t2)
-		info.t = info.t1;
-	info.y0 = dot_product(ray->direc, info.v) * info.t2
-		+ dot_product(info.x, info.v);
-	info.y1 = dot_product(ray->direc, info.v) * info.t1
-		+ dot_product(info.x, info.v);
-	if (info.y0 >= EPS && info.y0 <= co->p.y)
-	{
-		*t = (info.t2);
-		return (true);
-	}
-	if (info.y1 >= EPS && info.y1 <= co->p.y)
-	{
-		*t = (info.t1);
-		return (true);
-	}
-	return (false);
-}

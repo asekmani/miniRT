@@ -275,6 +275,7 @@ bool				inter_scene_ray(t_scene scene, t_ray ray, double *t);
 double				take_min(double x, double y);
 t_sphere			create_sph(t_ray ray, t_obj sp);
 t_cylinder			create_cyl(t_ray ray, t_obj obj);
+t_cone				create_cone(t_ray ray, t_obj obj);
 
 /*Camera*/
 t_ray				create_ray_cam(t_minirt *rt, double i, double j);

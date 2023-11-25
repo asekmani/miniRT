@@ -20,8 +20,6 @@ bool	find_local_inter(t_ray ray, t_obj *obj, t_inter *local_inter)
 		return (inter_plan(ray, *obj, local_inter));
 	else if (obj->id == CY)
 		return (inter_cylindre(ray, *obj, local_inter));
-	else if (obj->id == CO)
-		return (inter_cone(ray, *obj, local_inter));
 	return (false);
 }
 
