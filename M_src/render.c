@@ -48,21 +48,21 @@ void	tracing(t_minirt *rt)
 	int		i;
 	int		j;
 
-	i = H - 1;
-	while (i >= 0)
+	i = 0;
+	while (i < H)
 	{
 		j = 0;
 		while (j < W)
 		{
-			x = (double)j * 2 / W - 1;
-			y = (double)i * 2 / H - 1;
+			x = (double)(j * 2.0 / W) - 1;
+			y = (double)(i * 2.0 / H) - 1;
 			rt->ray = create_ray_cam(rt, x, y);
 			rt->vec = calcul_color(*rt->scene, rt->ray);
 			color = create_rgb(rt->vec.x, rt->vec.y, rt->vec.z);
 			img_pixel_put(&rt->img, j, H - 1 - i, color);
 			j++;
 		}
-		i--;
+		i++;
 	}
 }
 

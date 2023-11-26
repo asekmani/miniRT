@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define W 800
-# define H 800
+# define W 200
+# define H 200
 
 # define EPS 0.000001
 # define PI 3.14159265358979323846264338327950288
@@ -288,6 +288,7 @@ t_vec				diffuse(t_obj obj_int, t_light *light, double d);
 t_vec				calcul_color(t_scene sc, t_ray ray);
 t_vec				calcul_light_color(t_scene *sc, t_inter inter,
 						t_obj obj_int, t_vec amb);
+
 
 /*Color_vectors*/
 
