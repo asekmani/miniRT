@@ -12,7 +12,6 @@
 
 #include "../includes/miniRT.h"
 
-t_alloc		*g_memory;
 
 static int	check_and_open_file(int arc, char **arv)
 {

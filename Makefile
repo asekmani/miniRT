@@ -25,7 +25,6 @@ M_SRCS = M_src/miniRT.c \
          M_src/ft_camera.c \
          M_src/ft_split.c \
          M_src/get_next_line.c \
-         M_src/Memory_allocator.c \
          M_src/init_struct.c \
          M_src/init_struct_2.c \
          M_src/parsing.c \
@@ -47,7 +46,6 @@ B_SRCS = B_src/miniRT_bonus.c \
          B_src/ft_camera.c \
          B_src/ft_split.c \
          B_src/get_next_line.c \
-         B_src/Memory_allocator.c \
          B_src/init_struct.c \
          B_src/init_struct_2.c \
          B_src/parsing.c \

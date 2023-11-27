@@ -32,8 +32,7 @@ t_scene	*init_scence(void)
 {
 	t_scene	*scene;
 
-	g_memory = NULL;
-	scene = memory_adr(&g_memory, (sizeof(t_scene)));
+	scene = malloc(sizeof(t_scene));
 	if (!scene)
 		return (NULL);
 	scene->obj = NULL;
@@ -59,7 +58,7 @@ t_obj	*init_obj(t_minirt *rt)
 {
 	t_obj	*new;
 
-	new = memory_adr(&g_memory, sizeof(t_obj));
+	new = malloc(sizeof(t_obj));
 	if (!new)
 		return (NULL);
 	new->color = create_vector();
