@@ -57,8 +57,8 @@ void	camera_parse(t_minirt *rt, char **arv)
 	if (rt->scene->camera.orient.x == 0 && rt->scene->camera.orient.y == 0
 		&& rt->scene->camera.orient.z == 0)
 		error_msg("invalid camera orientation!");
-	rt->scene->camera.FOV = ft_atod(arv[3]);
-	if (rt->scene->camera.FOV < 0 || rt->scene->camera.FOV > 180)
+	rt->scene->camera.fov = ft_atod(arv[3]);
+	if (rt->scene->camera.fov < 0 || rt->scene->camera.fov > 180)
 		error_msg("FOV must be in range [0,180]");
 	set_camera_scene(rt);
 }

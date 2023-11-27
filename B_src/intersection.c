@@ -53,3 +53,19 @@ bool	inter_scene(t_scene scene, t_ray ray, t_inter *inter, t_obj *s)
 	}
 	return (has_inter);
 }
+
+t_vec	specular(t_scene *sc, t_inter inter, t_light *light)
+{
+	t_vec	l;
+	t_vec	v;
+	t_vec	r;
+	t_vec	hit_light;
+	double	spec;
+
+	hit_light = vec_subtract(light->coord, inter.p);
+	l = normalize(hit_light);
+	v = normalize(vec_subtract(inter.p, sc->camera.coord));
+	r = vec_subtract(vec_multiply(inter.n, 2 * dot_product(inter.n, l)), l);
+	spec = pow(dot_product(r, v), 50) * light->ratio * 0.5;
+	return (vec_multiply(light->color, spec));
+}

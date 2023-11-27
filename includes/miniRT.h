@@ -102,7 +102,7 @@ typedef struct t_cam
 	t_vec			coord;
 	t_vec			orient;
 	t_vec			forward;
-	double			FOV;
+	double			fov;
 	double			aspect;
 	double			tan;
 	t_vec			up;
@@ -270,9 +270,11 @@ bool				inter_scene(t_scene scene, t_ray ray, t_inter *inter,
 						t_obj *s);
 bool				find_inter_cy(t_cylinder info, t_ray *ray, t_obj *cy,
 						double *t);
-bool				find_inter_co(t_cone info, t_obj *co, t_ray *ray, double *t);
+bool				find_inter_co(t_cone info, t_obj *co, t_ray *ray,
+						double *t);
 bool				inter_scene_ray(t_scene scene, t_ray ray, double *t);
 double				take_min(double x, double y);
+t_vec				specular(t_scene *sc, t_inter inter, t_light *light);
 t_sphere			create_sph(t_ray ray, t_obj sp);
 t_cylinder			create_cyl(t_ray ray, t_obj obj);
 t_cone				create_cone(t_ray ray, t_obj obj);
@@ -288,7 +290,6 @@ t_vec				diffuse(t_obj obj_int, t_light *light, double d);
 t_vec				calcul_color(t_scene sc, t_ray ray);
 t_vec				calcul_light_color(t_scene *sc, t_inter inter,
 						t_obj obj_int, t_vec amb);
-
 
 /*Color_vectors*/
 

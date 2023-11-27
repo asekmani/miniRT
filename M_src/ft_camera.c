@@ -16,8 +16,8 @@ void	set_camera_scene(t_minirt *rt)
 {
 	t_vec	correction;
 
-	rt->scene->camera.FOV = rt->scene->camera.FOV * PI / 180;
-	rt->scene->camera.tan = tan(rt->scene->camera.FOV / 2);
+	rt->scene->camera.fov = rt->scene->camera.fov * PI / 180;
+	rt->scene->camera.tan = tan(rt->scene->camera.fov / 2);
 	rt->scene->camera.aspect = (double)W / (double)H;
 	rt->scene->camera.forward = create_vectorv(rt->scene->camera.orient.x,
 			rt->scene->camera.orient.y,

@@ -22,20 +22,19 @@ void	img_pixel_put(t_img *img, int x, int y, int color)
 
 int	shade(t_scene *sc, t_inter inter, t_light *light)
 {
-	t_vec	hit_light;
-	t_ray	sh_ray;
-	t_inter	shadow;
-	t_vec	hit_sh;
-	t_obj	local_inter;
-	bool	inters;
+	t_vec		hit_light;
+	t_minirt	rt;
+	t_inter		shadow;
+	t_obj		local_inter;
+	bool		inters;
 
 	hit_light = vec_subtract(light->coord, inter.p);
-	sh_ray.coord = inter.p;
-	sh_ray.direc = normalize(hit_light);
+	rt.ray.coord = inter.p;
+	rt.ray.direc = normalize(hit_light);
 	shadow.t = -1;
-	inters = inter_scene(*sc, sh_ray, &shadow, &local_inter);
-	hit_sh = vec_subtract(shadow.p, sh_ray.coord);
-	if (inters && (vec_module(hit_light) > vec_module(hit_sh)))
+	inters = inter_scene(*sc, rt.ray, &shadow, &local_inter);
+	rt.vec = vec_subtract(shadow.p, rt.ray.coord);
+	if (inters && (vec_module(hit_light) > vec_module(rt.vec)))
 		return (1);
 	return (0);
 }
