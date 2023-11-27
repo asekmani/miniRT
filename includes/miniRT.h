@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define W 200
-# define H 200
+# define W 500
+# define H 500
 
 # define EPS 0.000001
 # define PI 3.14159265358979323846264338327950288
@@ -195,7 +195,7 @@ typedef struct s_cone
 }					t_cone;
 
 /*Global*/
-extern t_alloc		*g_memory;
+
 
 /*Utils*/
 size_t				ft_strlen(const char *s);
@@ -218,11 +218,6 @@ void				error_msg(char *str);
 int					exit_key(int keycode, t_minirt *rt);
 int					end_minirt(t_minirt *mlx);
 
-/*Memory_allocator*/
-t_alloc				*new_node(void *adr);
-t_alloc				**add_adr(t_alloc **g_memory, void *adr);
-void				*memory_adr(t_alloc **g_memory, size_t size);
-void				free_memory(t_alloc **g_memory, t_alloc *node);
 
 /*Init_struct*/
 void				init_minirt(t_minirt *rt);

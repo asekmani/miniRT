@@ -33,15 +33,18 @@ void	check_id(t_minirt *rt, char **arv, char *id)
 void	ft_parsing(t_minirt *rt, int fd)
 {
 	char	**arv;
+	char	*gnl;
 
 	while (1)
 	{
-		arv = ft_split(get_next_line(fd), ' ');
+		gnl = get_next_line(fd);
+		arv = ft_split(gnl, ' ');
 		if (arv == NULL)
 			break ;
 		if (*arv)
 			check_id(rt, arv, *arv);
 		free_split(arv);
+		free(gnl);
 	}
 	close(fd);
 }

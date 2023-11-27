@@ -12,6 +12,34 @@
 
 #include "../includes/miniRT.h"
 
+void free_scene(t_minirt *rt)
+{
+	t_light *light;
+	t_light *next;
+	t_obj *ob;
+	t_obj *next_o;
+
+	if(rt->scene)
+		{
+			light = rt->scene->light;
+			while (light)
+			{
+			    next = light->next;
+				free(light);
+				light = next;
+			}
+		   ob = rt->scene->obj;
+			while (ob)
+			{
+				next_o = ob->next;
+				free(ob);
+				ob = next_o;
+			}
+			free(rt->scene);
+			rt->scene = NULL;
+		}
+}
+
 void	clean_exit(int exit_code, t_minirt *rt)
 {
 	if (!rt)
@@ -21,11 +49,12 @@ void	clean_exit(int exit_code, t_minirt *rt)
 	if (rt->vars.win && rt->vars.mlx)
 		mlx_destroy_window(rt->vars.mlx, rt->vars.win);
 	if (rt->vars.mlx)
-	{
+	{	
 		mlx_loop_end(rt->vars.mlx);
 		mlx_destroy_display(rt->vars.mlx);
 		free(rt->vars.mlx);
 	}
+	free_scene(rt);
 	exit(exit_code);
 }
 
@@ -45,6 +74,5 @@ int	exit_key(int keycode, t_minirt *rt)
 void	error_msg(char *str)
 {
 	printf("Error : %s\n", str);
-	free_memory(&g_memory, g_memory);
 	exit(1);
 }
