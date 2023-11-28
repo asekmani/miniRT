@@ -40,6 +40,7 @@ t_scene	*init_scence(void)
 	scene->ambient.ratio = 1.0;
 	scene->ambient.counter = 0;
 	scene->camera.counter = 0;
+	scene->counter = 0;
 	scene->light = NULL;
 	return (scene);
 }
@@ -50,7 +51,7 @@ t_light	*init_light(t_minirt *rt)
 
 	new = malloc(sizeof(t_light));
 	if (!new)
-		error_msg("Error : light allocation!");
+		error_msg("Error : light allocation!", rt);
 	new->next = rt->scene->light;
 	rt->scene->light = new;
 	return (new);

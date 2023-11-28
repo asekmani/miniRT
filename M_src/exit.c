@@ -70,8 +70,25 @@ int	exit_key(int keycode, t_minirt *rt)
 		end_minirt(rt);
 	return (0);
 }
+void	free_gnl(t_minirt *rt)
+{
+	if(rt->gnl != NULL)
+	{
+		free(rt->gnl);
+		rt->gnl = NULL;
+	}
+	
+	free_split(rt->arv);
+}
 
-void	error_msg(char *str)
+void	error_msg(char *str, t_minirt *rt)
+{
+	free_gnl(rt);
+	free_scene(rt);
+	printf("Error : %s\n", str);
+	exit(1);
+}
+void	ft_error(char *str)
 {
 	printf("Error : %s\n", str);
 	exit(1);

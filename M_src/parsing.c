@@ -12,7 +12,7 @@
 
 #include "../includes/miniRT.h"
 
-void	check_id(t_minirt *rt, char **arv, char *id, char *gnl)
+void	check_id(t_minirt *rt, char **arv, char *id)
 {
 	if (id[0] == 'A' && id[1] == '\0')
 		ambient_parse(rt, arv);
@@ -26,30 +26,23 @@ void	check_id(t_minirt *rt, char **arv, char *id, char *gnl)
 		plane_parse(rt, arv);
 	else if (id[0] == 'c' && id[1] == 'y' && id[2] == '\0')
 		cylinder_parse(rt, arv);
-	else
-	{
-		free_scene(rt);
-		free_split(arv);
-		free(gnl);
-		error_msg("invalid identifier!!");
-	}
+	error_msg("invalid identifier!!", rt);
 }
 
 void	ft_parsing(t_minirt *rt, int fd)
 {
-	char	**arv;
-	char	*gnl;
 
 	while (1)
 	{
-		gnl = get_next_line(fd);
-		arv = ft_split(gnl, ' ');
-		if (arv == NULL)
+		rt->gnl = get_next_line(fd);
+		rt->arv = ft_split(rt->gnl, ' ');
+		if (rt->arv == NULL)
 			break ;
-		if (*arv)
-			check_id(rt, arv, *arv, gnl);
-		free_split(arv);
-		free(gnl);
+		if (*rt->arv)
+			check_id(rt, rt->arv, *rt->arv);
+		free_split(rt->arv);
+		free(rt->gnl);
+		rt->gnl = NULL;
 	}
 	close(fd);
 }

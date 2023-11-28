@@ -43,17 +43,14 @@ int	main(int arc, char **arv)
 	t_minirt	rt;
 
 	if (check_and_open_file(arc, arv) != 0)
-		error_msg("wrong args!");
+		ft_error("wrong args!");
 	fd = open(arv[1], O_RDONLY);
 	rt.scene = init_scence();
 	if (!rt.scene)
-		error_msg("no scene!");
+		ft_error("no scene!");
 	ft_parsing(&rt, fd);
-	if (!rt.scene)
-	{
-		free_scene(&rt);
-		error_msg("no scene!");
-	}
+	if (rt.scene->counter == 0)
+		error_msg("no scene!", &rt);
 	init_minirt(&rt);
 	render_rt(&rt);
 	return (0);
