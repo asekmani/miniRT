@@ -75,10 +75,10 @@ double	ft_atod(const char *str)
 
 void	free_split(char **s)
 {
+	int	i;
+
 	if(s != NULL)
 	{
-		int	i;
-
 		i = 0;
 		while (s[i] != NULL)
 		{
@@ -89,8 +89,6 @@ void	free_split(char **s)
 		free(s);
 		s = NULL;
 	}
-	
-	
 }
 
 int	ft_atoi(const char *str)
