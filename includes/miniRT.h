@@ -118,6 +118,7 @@ typedef struct s_scene
 	t_amb			ambient;
 	t_cam			camera;
 	t_light			*light;
+	int 			counter;
 
 }					t_scene;
 
@@ -128,6 +129,8 @@ typedef struct s_minirt
 	t_vec			vec;
 	t_ray			ray;
 	t_scene			*scene;
+	char			*gnl;
+	char			**arv;
 
 }					t_minirt;
 
@@ -212,10 +215,11 @@ int					shade(t_scene *sc, t_inter inter, t_light *light);
 
 /*Exit*/
 void				clean_exit(int exit_code, t_minirt *rt);
-void				error_msg(char *str);
+void				error_msg(char *str, t_minirt *rt);
 void				free_scene(t_minirt *rt);
 int					exit_key(int keycode, t_minirt *rt);
 int					end_minirt(t_minirt *mlx);
+void				ft_error(char *str);
 
 /*Init_struct*/
 void				init_minirt(t_minirt *rt);
@@ -230,8 +234,8 @@ t_ray				create_ray(void);
 t_obj				create_t_obj(void);
 
 /*Parsing*/
-t_vec				color_parse(char *str);
-t_vec				vectors_parse(char *str);
+t_vec				color_parse(char *str, t_minirt *rt);
+t_vec				vectors_parse(char *str, t_minirt *rt);
 void				ambient_parse(t_minirt *rt, char **arv);
 void				camera_parse(t_minirt *rt, char **arv);
 void				light_parse(t_minirt *rt, char **arv);
@@ -239,7 +243,7 @@ void				sphere_parse(t_minirt *rt, char **arv);
 void				plane_parse(t_minirt *rt, char **arv);
 void				cylinder_parse(t_minirt *rt, char **arv);
 void				cone_parse(t_minirt *rt, char **arv);
-void				check_id(t_minirt *rt, char **arv, char *id, char *gnl);
+void				check_id(t_minirt *rt, char **arv, char *id);
 void				ft_parsing(t_minirt *rt, int fd);
 
 /*Vectors*/
