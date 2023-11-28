@@ -12,7 +12,6 @@
 
 #include "../includes/miniRT.h"
 
-
 static int	check_and_open_file(int arc, char **arv)
 {
 	int	i;
@@ -50,6 +49,11 @@ int	main(int arc, char **arv)
 	if (!rt.scene)
 		error_msg("no scene!");
 	ft_parsing(&rt, fd);
+	if (!rt.scene)
+	{
+		free_scene(&rt);
+		error_msg("no scene!");
+	}
 	init_minirt(&rt);
 	render_rt(&rt);
 	return (0);

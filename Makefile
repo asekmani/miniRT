@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-# HEADER = includes/minirt.h
-
 NAME=miniRT
 NAME_B=miniRT_bonus
 
@@ -60,7 +58,7 @@ B_SRCS = B_src/miniRT_bonus.c \
          B_src/intersection.c \
 
 CFLAGS = -g3 -Wall -Wextra -Werror
-# MFLAGS = libmlx.a -lmlx -framework OpenGL -framework AppKit
+
 CC = cc
 
 OBJS_M = $(addprefix $(OBJ_DIR)/, $(M_SRCS:.c=.o))

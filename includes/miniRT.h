@@ -15,8 +15,8 @@
 
 # define MLX_ERROR 1
 
-# define W 500
-# define H 500
+# define W 200
+# define H 200
 
 # define EPS 0.000001
 # define PI 3.14159265358979323846264338327950288
@@ -24,6 +24,7 @@
 # define PL 4
 # define SP 6
 # define CO 8
+# define BLACK_PIXEL 0x000000
 
 # include "mlx.h"
 # include <fcntl.h>
@@ -194,9 +195,6 @@ typedef struct s_cone
 	double			k;
 }					t_cone;
 
-/*Global*/
-
-
 /*Utils*/
 size_t				ft_strlen(const char *s);
 int					ft_atoi(const char *str);
@@ -215,9 +213,9 @@ int					shade(t_scene *sc, t_inter inter, t_light *light);
 /*Exit*/
 void				clean_exit(int exit_code, t_minirt *rt);
 void				error_msg(char *str);
+void				free_scene(t_minirt *rt);
 int					exit_key(int keycode, t_minirt *rt);
 int					end_minirt(t_minirt *mlx);
-
 
 /*Init_struct*/
 void				init_minirt(t_minirt *rt);
@@ -241,7 +239,7 @@ void				sphere_parse(t_minirt *rt, char **arv);
 void				plane_parse(t_minirt *rt, char **arv);
 void				cylinder_parse(t_minirt *rt, char **arv);
 void				cone_parse(t_minirt *rt, char **arv);
-void				check_id(t_minirt *rt, char **arv, char *id);
+void				check_id(t_minirt *rt, char **arv, char *id, char *gnl);
 void				ft_parsing(t_minirt *rt, int fd);
 
 /*Vectors*/

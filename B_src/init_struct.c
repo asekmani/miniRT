@@ -36,6 +36,8 @@ t_scene	*init_scence(void)
 	if (!scene)
 		return (NULL);
 	scene->obj = NULL;
+	scene->ambient.color = create_vector();
+	scene->ambient.ratio = 1.0;
 	scene->ambient.counter = 0;
 	scene->camera.counter = 0;
 	scene->light = NULL;
@@ -57,6 +59,7 @@ t_light	*init_light(t_minirt *rt)
 t_obj	*init_obj(t_minirt *rt)
 {
 	t_obj	*new;
+
 	new = malloc(sizeof(t_obj));
 	if (!new)
 		return (NULL);

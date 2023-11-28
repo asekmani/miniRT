@@ -12,7 +12,7 @@
 
 #include "../includes/miniRT.h"
 
-void	check_id(t_minirt *rt, char **arv, char *id)
+void	check_id(t_minirt *rt, char **arv, char *id, char *gnl)
 {
 	if (id[0] == 'A' && id[1] == '\0')
 		ambient_parse(rt, arv);
@@ -29,7 +29,12 @@ void	check_id(t_minirt *rt, char **arv, char *id)
 	else if (id[0] == 'c' && id[1] == 'o' && id[2] == '\0')
 		cone_parse(rt, arv);
 	else
+	{
+		free_scene(rt);
+		free_split(arv);
+		free(gnl);
 		error_msg("invalid identifier!!");
+	}
 }
 
 void	ft_parsing(t_minirt *rt, int fd)
@@ -44,7 +49,7 @@ void	ft_parsing(t_minirt *rt, int fd)
 		if (arv == NULL)
 			break ;
 		if (*arv)
-			check_id(rt, arv, *arv);
+			check_id(rt, arv, *arv, gnl);
 		free_split(arv);
 		free(gnl);
 	}
